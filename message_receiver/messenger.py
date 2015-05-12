@@ -23,6 +23,6 @@ def send(phones, mails, message):
         except Exception as e:
             log.error('Exception using yowsup library: %r, for account: %s' %(
                 str(e), account))
-    if !sucess:
+    if not sucess:
         log.error('Message was not delivered')
         #TODO: send email
