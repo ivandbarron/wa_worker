@@ -17,7 +17,7 @@ def callback(ch, method, properties, body):
     logging.getLogger(__name__).info('Message was processed\n')
 
 
-def from_queue(host, port, queue)
+def from_queue(host, port, queue):
     conn = pika.BlockingConnection(pika.ConnectionParameters(server, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)
