@@ -22,5 +22,5 @@ def from_queue(host, port, queue):
     channel = conn.channel()
     channel.queue_declare(queue=queue)
     channel.basic_consume(callback, queue=queue)
-    logging.get_logger(__name__).info('Sucess')
+    logging.getLogger(__name__).info('Sucess')
     channel.start_consuming()
