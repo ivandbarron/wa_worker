@@ -1,5 +1,6 @@
 import logging
 import os
+import json
 import receive
 import sys
 import time
@@ -22,11 +23,11 @@ def init_search_path():
 
 def get_mq_params():
     etcd_endpoint = os.getenv('ETCD_ENDPOINT', '127.0.0.1')
-    etcd_port = os.getenv('ETCD_PORT', '4001')
+    etcd_port = int(os.getenv('ETCD_PORT', '4001'))
     instance = os.getenv('MQ_INSTANCE', '1')
     queue = os.getenv('MQ_QUEUE', 'WA_MESSAGE_QUEUE')
     client = etcd.Client(host=etcd_endpoint, port=etcd_port)
-    service = client.read('/services/rabbitmq@'+instance).value
+    service = json.loads(client.read('/services/rabbitmq@'+instance).value)
     return service['host'], service['port'], queue
 
 
@@ -40,8 +41,9 @@ if __name__ == '__main__':
             log.info('Trying to connect...')
             receive.from_queue(host, port, queue)
             break
-        except:
-            log.warn('Error with config: %s:%s %r, retry in 40 seconds' % (host, port, queue))
+        except Exception as e:
+            log.warn('Error with config: %s:%s %r, retry in 40 seconds: %r' %
+                     (host, port, queue, str(e)))
             time.sleep(30)
             '''TODO: replication
             log.warn('Error with config: %s:%s %r' % (host, port, queue))
