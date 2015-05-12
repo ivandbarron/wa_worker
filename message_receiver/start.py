@@ -28,7 +28,7 @@ def get_mq_params():
     queue = os.getenv('MQ_QUEUE', 'WA_MESSAGE_QUEUE')
     client = etcd.Client(host=etcd_endpoint, port=etcd_port)
     service = json.loads(client.read('/services/rabbitmq@'+instance).value)
-    return service['host'], service['port'], queue
+    return service['host'], int(service['port']), queue
 
 
 if __name__ == '__main__':
@@ -36,6 +36,9 @@ if __name__ == '__main__':
     init_logger()
     log = logging.getLogger(__name__)
     while True:
+        host = 'NULL'
+        port = 0
+        queue = 'NULL'
         try:
             host, port, queue = get_mq_params()
             log.info('Trying to connect...')

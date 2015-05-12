@@ -18,7 +18,7 @@ def callback(ch, method, properties, body):
 
 
 def from_queue(host, port, queue):
-    conn = pika.BlockingConnection(pika.ConnectionParameters(server, port))
+    conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)
     channel.basic_consume(callback, queue=queue)
