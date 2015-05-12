@@ -2,6 +2,7 @@ import json
 import pika
 import messenger
 import logging
+import pdb
 
 
 def callback(ch, method, properties, body):
@@ -18,6 +19,7 @@ def callback(ch, method, properties, body):
 
 
 def from_queue(host, port, queue):
+    pdb.set_trace()
     conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)
