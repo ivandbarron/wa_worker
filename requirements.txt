@@ -1,5 +1,5 @@
 python-dateutil==2.2
 python-etcd==0.3.3
 yowsup2==2.2.79
-symple-crypt==4.0.0
+simple-crypt==4.0.0
 pika==0.9.14
