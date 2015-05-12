@@ -21,9 +21,11 @@ def init_search_path():
 
 
 def get_mq_params():
-    client = etcd.Client(host=os.getenv('ETCD_ENDPOINT'), port=4001)
+    etcd_endpoint = os.getenv('ETCD_ENDPOINT', '127.0.0.1')
+    etcd_port = os.getenv('ETCD_PORT', '4001')
     instance = os.getenv('MQ_INSTANCE', '1')
-    queue = os.getenv('MQ_QUEUE', 'SEND_MESSAGE_QUEUE')
+    queue = os.getenv('MQ_QUEUE', 'WA_MESSAGE_QUEUE')
+    client = etcd.Client(host=etcd_endpoint, port=etcd_port)
     service = client.read('/services/rabbitmq@'+instance).value
     return service['host'], service['port'], queue
 
