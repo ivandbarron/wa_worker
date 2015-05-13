@@ -11,7 +11,7 @@ def get_keystore():
     for f in os.listdir(keystore_path):
         if f.endswith('.ini'):
             config = ConfigParser.ConfigParser()
-            config.read(os.path.join(current_path, f))
+            config.read(os.path.join(keystore_path, f))
             account = config.get('key', 'account', '0')
             password = config.get('key', 'password', '0')
             yield account, password
