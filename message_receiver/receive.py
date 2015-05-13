@@ -3,7 +3,6 @@ import pika
 import messenger
 import logging
 import pdb
-log=logging.getLogger(__name__)
 
 def callback(ch, method, properties, body):
     ''' "body" debe contener el siguiente json
@@ -14,12 +13,13 @@ def callback(ch, method, properties, body):
     } '''
     try:
         _d = json.loads(body)
+        logging.info('Trying to send message...')
         messenger.send(_d['phones'], _d['mails'], _d['msg'].replace('#13', '\n'))
     except Exception as e:
-        log.warn('Sending problem: %r' % (str(e),))
+        logging.warn('Sending problem: %r' % (str(e),))
     finally:
         ch.basic_ack(delivery_tag=method.delivery_tag)
-        log.info('Message was processed\n')
+        logging.info('Message was processed\n')
 
 
 def from_queue(host, port, queue):

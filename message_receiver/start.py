@@ -8,13 +8,18 @@ import etcd
 
 
 def init_logger():
-    logger = logging.getLogger(__name__)
+    '''
+    logger = logging.getLogger('wa_worker')
     logger.setLevel(logging.DEBUG)
     fh = logging.FileHandler('events.log')
     fh.setLevel(logging.INFO)
     formatter = logging.Formatter('[%(asctime)s] %(levelname)s : %(message)s')
     fh.setFormatter(formatter)
     logger.addHandler(fh)
+    '''
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG,
+        filename='events.log')
 
 
 def init_search_path():
@@ -34,14 +39,12 @@ def get_mq_params():
 if __name__ == '__main__':
     init_search_path()
     init_logger()
-    log = logging.getLogger(__name__)
     #while True:
         #host = 'NULL'
         #port = 0
         #queue = 'NULL'
         #try:
     host, port, queue = get_mq_params()
-    log.info('Trying to connect...')
     receive.from_queue(host, port, queue)
         #break
         #except Exception as e:

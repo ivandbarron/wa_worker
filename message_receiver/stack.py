@@ -13,7 +13,6 @@ from yowsup.common import YowConstants
 from yowsup import env
 from layer import SendLayer
 import logging
-log = logging.getLogger(__name__)
 
 
 class SendStack(object):
@@ -38,6 +37,6 @@ class SendStack(object):
 
 
     def start(self): # Throws AuthError
-        log.info('Begin connection to whatsapp')
+        logging.info('Begin connection to whatsapp')
         self.stack.broadcastEvent(YowLayerEvent(YowNetworkLayer.EVENT_STATE_CONNECT))
         self.stack.loop()
