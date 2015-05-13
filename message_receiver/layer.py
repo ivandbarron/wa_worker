@@ -2,7 +2,7 @@ from yowsup.layers.interface                           import YowInterfaceLayer,
 from yowsup.layers.protocol_messages.protocolentities  import TextMessageProtocolEntity
 import threading
 import logging
-import pdb
+
 
 class SendLayer(YowInterfaceLayer):
     PROP_MESSAGES = "org.openwhatsapp.yowsup.prop.sendclient.queue"
@@ -14,7 +14,6 @@ class SendLayer(YowInterfaceLayer):
 
     @ProtocolEntityCallback("success")
     def onSuccess(self, successProtocolEntity):
-        pdb.set_trace()
         try:
             self.lock.acquire()
             for target in self.getProp(self.__class__.PROP_MESSAGES, []):
@@ -31,7 +30,6 @@ class SendLayer(YowInterfaceLayer):
     #after receiving the message from the target number, target number will send a ack to sender(us)
     @ProtocolEntityCallback("ack")
     def onAck(self, entity):
-        pdb.set_trace()
         try:
             self.lock.acquire()
             #if the id match the id in ackQueue, then pop the id of the message out
@@ -39,14 +37,13 @@ class SendLayer(YowInterfaceLayer):
                 self.ackQueue.pop(self.ackQueue.index(entity.getId()))
             if not len(self.ackQueue):
                 self.lock.release()
-                logger.info("Message sent")
+                logging.info("Message was sent")
                 raise KeyboardInterrupt()
         finally:
             self.lock.release()
 
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
-        pdb.set_trace()
         try:
             self.lock.acquire()
             receipt = OutgoingReceiptProtocolEntity(messageProtocolEntity.getId(), messageProtocolEntity.getFrom())
@@ -60,7 +57,6 @@ class SendLayer(YowInterfaceLayer):
 
     @ProtocolEntityCallback("receipt")
     def onReceipt(self, entity):
-        pdb.set_trace()
         try:
             self.lock.acquire()
             ack = OutgoingAckProtocolEntity(entity.getId(), "receipt", "delivery", entity.getFrom())
