@@ -4,11 +4,9 @@ import base64
 import sys
 import logging
 from simplecrypt import encrypt, decrypt
-import pdb
 
 
 def get_keystore():
-    pdb.set_trace()
     current_path = os.path.dirname(os.path.realpath(__file__))
     keystore_path = os.path.join(current_path, 'keystore')
     for f in os.listdir(keystore_path):
@@ -29,7 +27,7 @@ def get_credentials():
 if __name__ == '__main__':
     '''Utility for adding whatsapp keys'''
     if len(sys.argv) < 4:
-        print('params: wa_account wa_password master_key')
+        print('Usage: $python keystore.py wa_account wa_password master_key')
         sys.exit(1)
     account = sys.argv[1]
     password = sys.argv[2]
