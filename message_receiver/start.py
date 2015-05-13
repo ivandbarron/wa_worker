@@ -10,7 +10,7 @@ import etcd
 def init_logger():
     logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
         datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO,
-        filename='events.log')
+        filename=os.path.dirname(__file__)+'/events.log')
 
 
 def init_search_path():

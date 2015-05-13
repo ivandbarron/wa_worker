@@ -30,17 +30,14 @@ class SendLayer(YowInterfaceLayer):
     #after receiving the message from the target number, target number will send a ack to sender(us)
     @ProtocolEntityCallback("ack")
     def onAck(self, entity):
-        try:
-            self.lock.acquire()
-            #if the id match the id in ackQueue, then pop the id of the message out
-            if entity.getId() in self.ackQueue:
-                self.ackQueue.pop(self.ackQueue.index(entity.getId()))
-            if not len(self.ackQueue):
-                self.lock.release()
-                logging.info("Message was sent")
-                raise KeyboardInterrupt()
-        finally:
+        self.lock.acquire()
+        #if the id match the id in ackQueue, then pop the id of the message out
+        if entity.getId() in self.ackQueue:
+            self.ackQueue.pop(self.ackQueue.index(entity.getId()))
+        if not len(self.ackQueue):
             self.lock.release()
+            logging.info("Message was sent")
+            raise KeyboardInterrupt()
 
     @ProtocolEntityCallback("message")
     def onMessage(self, messageProtocolEntity):
