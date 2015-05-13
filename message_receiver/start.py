@@ -9,7 +9,7 @@ import etcd
 
 def init_logger():
     logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     fh = logging.FileHandler('events.log')
     fh.setLevel(logging.INFO)
     formatter = logging.Formatter('[%(asctime)s] %(levelname)s : %(message)s')
