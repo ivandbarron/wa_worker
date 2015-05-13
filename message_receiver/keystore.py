@@ -35,6 +35,7 @@ if __name__ == '__main__':
     account = sys.argv[1]
     password = sys.argv[2]
     secret = sys.argv[3]
+    pdb.set_trace()
     current_path = os.path.dirname(os.path.realpath(__file__))
     newfile = os.path.join(current_path, 'keystore', account+'.ini')
     with open(newfile, 'w') as f:
