@@ -37,7 +37,10 @@ if __name__ == '__main__':
     secret = sys.argv[3]
     pdb.set_trace()
     current_path = os.path.dirname(os.path.realpath(__file__))
-    newfile = os.path.join(current_path, 'keystore', account+'.ini')
+    keystore_path = os.path.join(current_path, 'keystore')
+    if not os.path.exists(keystore_path):
+        os.makedirs(keystore_path)
+    newfile = os.path.join(keystore_path, account+'.ini')
     with open(newfile, 'w') as f:
         f.write('[key]\n')
         f.write('password='+base64.b64encode(encrypt(secret, password)))
