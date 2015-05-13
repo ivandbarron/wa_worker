@@ -1,3 +1,4 @@
+import logging
 import keystore
 from stack import SendStack
 from yowsup.layers.auth import AuthError
