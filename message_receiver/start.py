@@ -8,17 +8,8 @@ import etcd
 
 
 def init_logger():
-    '''
-    logger = logging.getLogger('wa_worker')
-    logger.setLevel(logging.DEBUG)
-    fh = logging.FileHandler('events.log')
-    fh.setLevel(logging.INFO)
-    formatter = logging.Formatter('[%(asctime)s] %(levelname)s : %(message)s')
-    fh.setFormatter(formatter)
-    logger.addHandler(fh)
-    '''
     logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.DEBUG,
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO,
         filename='events.log')
 
 
@@ -42,6 +33,9 @@ if __name__ == '__main__':
     while True:
         host, port, queue = get_mq_params()
         try:
+            motd = 'Service started in queue %s:%s %r...' % (host, port, queue)
+            print(motd)
+            logging.info(motd)
             receive.from_queue(host, port, queue)
             break
         except KeyboardInterrupt:

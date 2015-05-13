@@ -21,8 +21,7 @@ def send(phones, mails, message):
         except AuthError:
             logging.warn('Failed auth for account %s' % account)
         except Exception as e:
-            logging.error('Exception using yowsup library: %r, for account: %s' %(
-                str(e), account))
+            logging.error('Exception: %r, for account: %s' % (str(e), account))
     if not sucess:
         logging.error('Message was not delivered')
         #TODO: send email

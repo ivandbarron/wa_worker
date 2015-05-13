@@ -2,7 +2,7 @@ import json
 import pika
 import messenger
 import logging
-import pdb
+
 
 def callback(ch, method, properties, body):
     ''' "body" debe contener el siguiente json
@@ -12,9 +12,10 @@ def callback(ch, method, properties, body):
         "msg": "algun mensaje#13con varias#13lineas"
     } '''
     try:
-        _d = json.loads(body)
+        _json = json.loads(body)
         logging.info('Trying to send message...')
-        messenger.send(_d['phones'], _d['mails'], _d['msg'].replace('#13', '\n'))
+        messenger.send(_json['phones'], _json['mails'],
+                       _json['msg'].replace('#13', '\n'))
     except Exception as e:
         logging.warn('Sending problem: %r' % (str(e),))
     finally:
