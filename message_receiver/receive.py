@@ -12,7 +12,6 @@ def callback(ch, method, properties, body):
         "mails": ["ivandavid77@gmail.com","dbarron@crediland.com.mx"]
         "msg": "algun mensaje#13con varias#13lineas"
     } '''
-    pdb.set_trace()
     try:
         _d = json.loads(body)
         messenger.send(_d['phones'], _d['mails'], _d['msg'].replace('#13', '\n'))
@@ -24,10 +23,8 @@ def callback(ch, method, properties, body):
 
 
 def from_queue(host, port, queue):
-    pdb.set_trace()
     conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)
     channel.basic_consume(callback, queue=queue)
-    log.info('Sucess')
     channel.start_consuming()

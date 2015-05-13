@@ -2,10 +2,12 @@ import logging
 import keystore
 from stack import SendStack
 from yowsup.layers.auth import AuthError
+import pdb
 
 
 def send(phones, mails, message):
     log = logging.getLogger(__name__)
+    pdb.set_trace()
     messages = []
     for phone in phones:
         messages.append((phone, message))
