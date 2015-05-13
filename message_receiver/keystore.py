@@ -1,8 +1,11 @@
 import os
 import ConfigParser
+import base64
+import sys
 import logging
-from simplecrypt import decrypt
+from simplecrypt import encrypt, decrypt
 import pdb
+
 
 def get_keystore():
     pdb.set_trace()
@@ -12,8 +15,8 @@ def get_keystore():
         if f.endswith('.ini'):
             config = ConfigParser.ConfigParser()
             config.read(os.path.join(keystore_path, f))
-            account = config.get('key', 'account', '0')
-            password = config.get('key', 'password', '0')
+            account = f[:-4]
+            password = base64.b64decode(config.get('key', 'password'))
             yield account, password
 
 
@@ -21,7 +24,20 @@ def get_credentials():
     secret = os.getenv('SECRET_KEY', 'my_secret_key')
     for account, password in get_keystore():
         pdb.set_trace()
-        if account == '0':
-            logging.warn('Error in keystore config, verify your keys!')
-            continue
         yield account, decrypt(secret, password)
+
+
+if __name__ == '__main__':
+    '''Utility for adding whatsapp keys'''
+    if len(sys.argv) < 4:
+        print('params: wa_account wa_password master_key')
+        sys.exit(1)
+    account = sys.argv[1]
+    password = sys.argv[2]
+    secret = sys.argv[3]
+    current_path = os.path.dirname(os.path.realpath(__file__))
+    newfile = os.path.join(current_path, 'keystore', account+'.ini')
+    with open(newfile, 'w') as f:
+        f.write('[key]\n')
+        f.write('password='+base64.b64encode(encrypt(secret, password)))
+        print('done')
