@@ -39,23 +39,14 @@ def get_mq_params():
 if __name__ == '__main__':
     init_search_path()
     init_logger()
-    #while True:
-        #host = 'NULL'
-        #port = 0
-        #queue = 'NULL'
-        #try:
-    host, port, queue = get_mq_params()
-    receive.from_queue(host, port, queue)
-        #break
-        #except Exception as e:
-        #    log.warn('Error with config: %s:%s %r, retry in 40 seconds: %r' %
-        #             (host, port, queue, str(e)))
-        #    time.sleep(30)
-        #    '''TODO: replication
-        #    log.warn('Error with config: %s:%s %r' % (host, port, queue))
-        #    if get_slave:
-        #        log.error('Error connecting to slave! Retry in 30 seconds')
-        #        time.sleep(30)
-        #    else:
-        #        get_slave = True
-        #    '''
+    while True:
+        host, port, queue = get_mq_params()
+        try:
+            receive.from_queue(host, port, queue)
+            break
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            logging.warn('Error with %s:%s %r, retry in 60 seconds: %r' %
+                        (host, port, queue, str(e)))
+            time.sleep(60)
