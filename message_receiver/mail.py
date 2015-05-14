@@ -20,7 +20,10 @@ def get_config():
     user = base64.b64decode(config.get('smtp', 'user'))
     password = base64.b64decode(config.get('smtp', 'password'))
     admin = base64.b64decode(config.get('smtp', 'admin'))
-    return host, user, password, admin
+    return (decrypt(secret, host),
+        decrypt(secret, user),
+        decrypt(secret, password),
+        decrypt(secret, admin))
 
 
 def connect_to_smtp(host, user, password):

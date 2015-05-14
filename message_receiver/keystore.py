@@ -6,7 +6,8 @@ from ConfigParser import ConfigParser
 from simplecrypt import encrypt, decrypt
 
 
-def get_keystore():
+def get_credentials():
+    secret = os.getenv('SECRET_KEY', 'my_secret_key')
     current_path = os.path.dirname(os.path.realpath(__file__))
     keystore_path = os.path.join(current_path, 'keystore')
     for f in os.listdir(keystore_path):
@@ -15,13 +16,7 @@ def get_keystore():
             config.read(os.path.join(keystore_path, f))
             account = f[:-4]
             password = base64.b64decode(config.get('key', 'password'))
-            yield account, password
-
-
-def get_credentials():
-    secret = os.getenv('SECRET_KEY', 'my_secret_key')
-    for account, password in get_keystore():
-        yield account, decrypt(secret, password)
+            yield account, decrypt(secret, password)
 
 
 if __name__ == '__main__':
