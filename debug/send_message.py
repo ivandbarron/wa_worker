@@ -50,5 +50,5 @@ conn = pika.BlockingConnection(
     pika.ConnectionParameters(service['host'],int(service['port'])))
 channel = conn.channel()
 channel.queue_declare(queue=queue)
-channel.basic_publish(exchange='', routing_key=queue, body=msg)
+channel.basic_publish(exchange='', routing_key=queue, body=body)
 conn.close()
