@@ -28,8 +28,8 @@ else:
             raise Exception('"phones" must be list')
         if type(_json['mails']) != list:
             raise Exception('"mails" must be list')
-        if type(_json['msg']) != str:
-            raise Exception('"msg" must be string')
+        if not type(_json['msg']) in (str, bin, unicode):
+            raise Exception('"msg" must be a text')
     except Exception as e:
         usage = '''Invalid json format: %r,
             try with the next example:
