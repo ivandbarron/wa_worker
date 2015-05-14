@@ -1,5 +1,6 @@
 import logging
 import keystore
+import mail
 from stack import SendStack
 from yowsup.layers.auth import AuthError
 
@@ -19,9 +20,13 @@ def send(phones, mails, message):
                 sucess = True
             break
         except AuthError:
-            logging.warn('Failed auth for account %s' % account)
+            logging.warn('Failed auth for account %s' % (account,))
         except Exception as e:
             logging.error('Exception: %r, for account: %s' % (str(e), account))
     if not sucess:
-        logging.error('Message was not delivered')
-        #TODO: send email
+        logging.warn('Message not delivered by whatsapp, trying by email...')
+        try:
+            mail.send(mails, message)
+            logging.info('Message sended to emails: %r' % (mails,))
+        except Exception as e:
+            logging.error('Message was not sended :' % (str(e),))

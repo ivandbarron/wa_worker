@@ -6,31 +6,38 @@ import etcd
 
 
 if len(sys.argv) < 2:
-    msg = '''{
+    body = '''{
         "phones": ["5212287779788"],
         "mails": ["dbarron@crediland.com.mx"],
         "msg": "test with newline#13test again"
     }'''
 else:
-    msg = sys.argv[1]
+    body = sys.argv[1]
     try:
-        _json = json.loads(msg)
-        if not 'phones' in _json or \
-            not 'mails' in _json or \
-            not 'msg' in _json or \
-            not type(_json['phones']) == list or \
-            not type(_json['mails']) == list or \
-            not type(_json['msg']) == str:
-            raise Exception()
-    except:
-        usage = '''
-            Invalid json format, try with the next example:
+        try:
+            _json = json.loads(body)
+        except ValueError:
+            raise Exception('Malformed string')
+        if not 'phones' in _json:
+            raise Exception('"phones" was not specified')
+        if not 'mails' in _json:
+            raise Exception('"mails" was not specified')
+        if not 'msg' in _json:
+            raise Exception('"msg" was not specified')
+        if type(_json['phones']) != list:
+            raise Exception('"phones" must be list')
+        if type(_json['mails']) != list:
+            raise Exception('"mails" must be list')
+        if type(_json['msg']) != str:
+            raise Exception('"msg" must be string')
+    except Exception as e:
+        usage = '''Invalid json format: %r,
+            try with the next example:
             {
                 "phones": ["5212287779788", "5212287779788"],
                 "mails": ["dbarron@crediland.com.mx", "ivandavid77@gmail.com"],
                 "msg": "test with newline#13test again"
-            }
-        '''
+            }''' % (str(e),)
         print(usage)
         sys.exit(1)
 etcd_endpoint = os.getenv('ETCD_ENDPOINT', '127.0.0.1')

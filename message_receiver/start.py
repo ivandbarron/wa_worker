@@ -10,11 +10,11 @@ import etcd
 def init_logger():
     logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
         datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO,
-        filename=os.path.dirname(__file__)+'/events.log')
+        filename=os.path.join(os.path.dirname(__file__), 'events.log'))
 
 
 def init_search_path():
-    sys.path.append(os.path.dirname(__file__)+'/eggs')
+    sys.path.append(os.path.join(os.path.dirname(__file__), 'eggs'))
 
 
 def get_mq_params():
@@ -34,13 +34,15 @@ if __name__ == '__main__':
         host, port, queue = get_mq_params()
         try:
             motd = 'Service started in queue %s:%s %r...' % (host, port, queue)
-            print(motd)
+            print('\n\n'+motd)
             logging.info(motd)
             receive.from_queue(host, port, queue)
             break
         except KeyboardInterrupt:
             break
         except Exception as e:
-            logging.warn('Error with %s:%s %r, retry in 60 seconds: %r' %
-                        (host, port, queue, str(e)))
+            error = 'Error with %s:%s %r, retry in 60 seconds: %r' % (
+                host, port, queue, str(e))
+            print(error)
+            logging.warn(error)
             time.sleep(60)
