@@ -27,16 +27,17 @@ def send(phones, mails, message):
     for phone in phones:
         messages.append((phone, message))
     sucess = False
-    try:
-        for account, password in keystore.get_credentials():
-            credentials = (account, password)
+    generator = keystore.get_credentials()
+    while True:
+        try:
+            account, password = next(generator)
             try:
-                stack = SendStack(credentials, messages)
+                stack = SendStack((account, password), messages)
                 try:
                     stack.start()
-                except KeyboardInterrupt:
+                except KeyboardInterrupt: #Sucess!
                     sucess = True
-                break
+                    break
             except AuthError:
                 error = 'Failed auth for account %s' % (account,)
                 logging.warn(error)
@@ -45,8 +46,13 @@ def send(phones, mails, message):
                 error = 'Exception: %r, using account: %s' % (str(e), account)
                 logging.error(error)
                 send_mail_to_admin(error)
-    except:
-        pass
+        except StopIteration:
+            break
+        except Exception as e:
+            error = 'Error getting credentials: %r' % (str(e),)
+            logging.error(error)
+            send_mail_to_admin(error)
+            continue
     if not sucess:
         logging.warn('Message not delivered by whatsapp, trying by email...')
         send_mail(mails, message)
