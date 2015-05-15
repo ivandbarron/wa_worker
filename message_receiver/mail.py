@@ -43,26 +43,34 @@ def connect_to_smtp(host, user, password):
             raise Exception('Could not connect to smtp server!')
 
 
+def make_template(From, To, Subject, Content):
+    mail = MIMEMultipart()
+    mail['From'] = From
+    mail['To'] = COMMASPACE.join(To)
+    mail['Date'] = formatdate(localtime = True)
+    mail['Subject'] = Subject
+    mail.attach(MIMEText(Content))
+    return mail
+
+
 def send(rcpt, message):
     host, user, password, admin = get_config()
-    mail = MIMEMultipart()
-    mail['From'] = user
-    mail['To'] = COMMASPACE.join(rcpt)
-    mail['Date'] = formatdate(localtime = True)
-    mail['Subject'] = 'reporte'
-    mail.attach(MIMEText(message))
+    mail = make_template(user, rcpt, 'Reporte', message)
     conn = connect_to_smtp(host, user, password)
     logging.info('Sending to emails: '+', '.join(rcpt))
     result = conn.sendmail(user, rcpt, mail.as_string())
-    for mail in result.keys():
+    conn.close()
+    for m in result.keys():
         try:
-            logging.error('Error sending to %r: %s' % (mail, result[mail][1]))
+            logging.error('Error sending to %r: %s' % (m, result[m][1]))
         except:
             pass
-    # Now send report to admin
-    mail['To'] = admin
-    mail['Subject'] = 'Error sending whatsapp'
-    mail.attach(MIMEText('Verify log, error sending whatsapp! Sent by email'))
+
+
+def send_to_admin(message):
+    host, user, password, admin = get_config()
+    mail = make_template(user, [admin], 'Whatsapp Error!', message)
+    conn = connect_to_smtp(host, user, password)
     conn.sendmail(user, [admin], mail.as_string())
     conn.close()
 

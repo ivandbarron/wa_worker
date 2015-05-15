@@ -13,10 +13,6 @@ def init_logger():
         filename=os.path.join(os.path.dirname(__file__), 'events.log'))
 
 
-def init_search_path():
-    sys.path.append(os.path.join(os.path.dirname(__file__), 'eggs'))
-
-
 def get_mq_params():
     etcd_endpoint = os.getenv('ETCD_ENDPOINT', '127.0.0.1')
     etcd_port = int(os.getenv('ETCD_PORT', '4001'))
@@ -28,21 +24,17 @@ def get_mq_params():
 
 
 if __name__ == '__main__':
-    init_search_path()
     init_logger()
     while True:
         host, port, queue = get_mq_params()
         try:
-            motd = 'Service started in queue %s:%s %r...' % (host, port, queue)
-            print('\n\n'+motd)
-            logging.info(motd)
+            logging.info('Service started in queue %s:%s %r...' % (
+                host, port, queue))
             receive.from_queue(host, port, queue)
             break
         except KeyboardInterrupt:
             break
         except Exception as e:
-            error = 'Error with %s:%s %r, retry in 60 seconds: %r' % (
-                host, port, queue, str(e))
-            print(error)
-            logging.warn(error)
+            logging.warn('Error with %s:%s %r, retry in 60 seconds: %r' % (
+                host, port, queue, str(e)))
             time.sleep(60)
