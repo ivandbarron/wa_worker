@@ -12,11 +12,16 @@ def get_credentials():
     keystore_path = os.path.join(current_path, 'keystore')
     for f in os.listdir(keystore_path):
         if f.endswith('.ini'):
-            config = ConfigParser()
-            config.read(os.path.join(keystore_path, f))
-            account = f[:-4]
-            password = base64.b64decode(config.get('key', 'password'))
-            yield account, decrypt(secret, password)
+            try:
+                config = ConfigParser()
+                config.read(os.path.join(keystore_path, f))
+                account = f[:-4]
+                password = base64.b64decode(config.get('key', 'password'))
+                decrypted_pass = decrypt(secret, password)
+                yield account, decrypted_pass
+            except Exception as e:
+                logging.error('Error getting credentials: %r' % (str(e),))
+
 
 
 if __name__ == '__main__':
