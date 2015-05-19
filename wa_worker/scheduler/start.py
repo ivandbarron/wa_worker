@@ -3,6 +3,7 @@ import os
 import json
 import sys
 import logging
+import pika
 import crontab
 import taskstore
 
