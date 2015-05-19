@@ -63,7 +63,13 @@ def make_body(name, phones, emails, cron, sql_file, params):
         sql)
 
 
+def init_logger(log_name):
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO, filename=log_name)
+
+
 if __name__ == '__main__':
+    init_logger(os.path.join(os.path.dirname(__file__), 'add_task.log'))
     args = get_args()
     body = make_body(args.name[0], args.phones, args.emails, args.cron[0],
                      args.sql_file[0], args.params)
@@ -71,4 +77,5 @@ if __name__ == '__main__':
     from wa_worker.base.bootstrap import get_mq_params
     host, port, queue = get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
     rpc = RpcClient(host, port)
+    logging.info('Sending info to queue %r : %s' % (queue, body))
     print(rpc.call(body, queue))

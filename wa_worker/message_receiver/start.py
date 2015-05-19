@@ -51,5 +51,5 @@ def callback(ch, method, properties, body):
 if __name__ == '__main__':
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base.bootstrap import start
-    log = os.path.join(os.path.dirname(__file__), 'events.log')
+    log = os.path.join(os.path.dirname(__file__), 'start.log')
     start('MQ_SEND_MESSAGE_QUEUE', callback, log)
