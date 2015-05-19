@@ -7,10 +7,13 @@ import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
-sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'base'))
-from bootstrap import get_mq_params
-sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'message_receiver', 'utilities'))
-from send_message import make_body, send
+try:
+    from wa_worker.base.bootstrap import get_mq_params
+    from wa_worker.message_receiver.utilities.send_message import make_body, send
+except ImportError:
+    sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
+    from wa_worker.base.bootstrap import get_mq_params
+    from wa_worker.message_receiver.utilities.send_message import make_body, send
 
 
 def get_args():
@@ -75,8 +78,8 @@ def do_sql(sqlfile):
     conn = None
     try:
         conn = mysql.connector.connect(user=user, password=password, host=host,
-                                     database=db, charset='latin1',
-                                     use_unicode=True)
+                                       database=db, charset='latin1',
+                                       use_unicode=True)
         cursor = conn.cursor()
         for query in extract_queries(sqlfile):
             cursor.execute((query,))

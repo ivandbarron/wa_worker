@@ -5,8 +5,6 @@ import sys
 import logging
 import crontab
 import taskstore
-sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'base'))
-from bootstrap import start
 
 
 def parse_add(_json):
@@ -90,5 +88,7 @@ def callback(ch, method, props, body):
 
 
 if __name__ == '__main__':
+    sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
+    from wa_worker.base.bootstrap import start
     log = os.path.join(os.path.dirname(__file__), 'events.log')
     start('MQ_TASK_MANAGEMENT_QUEUE', callback, log)

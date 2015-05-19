@@ -3,7 +3,6 @@ import sys
 import json
 import argparse
 import pika
-from wa_worker.base.bootstrap import get_mq_params
 
 
 def get_args():
@@ -33,5 +32,7 @@ def send(host, port, queue, body):
 if __name__ == '__main__':
     args = get_args()
     body = make_body(args.phones, args.emails, args.message[0])
-    host, port, queue = get_mq_params('MQ_SEND_MESSAGE_QUEUE')
+    sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'base'))
+    import bootstrap
+    host, port, queue = bootstrap.get_mq_params('MQ_SEND_MESSAGE_QUEUE')
     send(host, port, queue, body)
