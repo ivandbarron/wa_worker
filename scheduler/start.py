@@ -1,15 +1,20 @@
-import json
-import pika
-import messenger
 import logging
+import os
+import json
+import sys
+from wa_worker.base.bootstrap import start
 
 
 def parse_body(body):
     ''' "body" must be structured like:
     {
+        "operation": "add" or "rm" or "status"
+
+        -- if operation == "add":
+        "task_name": "a unique name for task",
         "phones": ["5212287779788", "5212287779789"],
-        "mails": ["ivandavid77@gmail.com","dbarron@crediland.com.mx"]
-        "msg": "algun mensaje#13con varias#13lineas"
+        "mails": ["ivandavid77@gmail.com","dbarron@crediland.com.mx"],
+        "sql": "some sql#13to execute;#13many queries#13separated by;"
     } '''
     try:
         _json = json.loads(body)
@@ -47,9 +52,6 @@ def callback(ch, method, properties, body):
             str(e),))
 
 
-def from_queue(host, port, queue):
-    conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
-    channel = conn.channel()
-    channel.queue_declare(queue=queue)
-    channel.basic_consume(callback, queue=queue)
-    channel.start_consuming()
+if __name__ == '__main__':
+    log = os.path.join(os.path.dirname(__file__), 'events.log')
+    start('MQ_TASK_MANAGEMENT_QUEUE', callback, log)
