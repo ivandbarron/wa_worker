@@ -141,7 +141,7 @@ def config_taskstore():
     else:
         secret = sys.argv[5] #get secret by param
     current_path = os.path.dirname(os.path.realpath(__file__))
-    newfile = os.path.join(current_path, 'exec_task.ini')
+    newfile = os.path.join(current_path, 'taskstore.ini')
     with open(newfile, 'w') as f:
         f.write('[db_connection]\n')
         f.write('host='+base64.b64encode(encrypt(secret, host))+'\n')
