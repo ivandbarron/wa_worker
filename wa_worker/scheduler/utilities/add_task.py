@@ -28,11 +28,11 @@ def sanitize_params(params):
     dparams = {p.split('=',1)[0]: p.split('=',1)[1] for p in params}
     sql_vars = []
     sql_replace = []
-    for key, value in dparams:
+    for key in dparams:
         if key.startswith('@'):
-            sql_vars.append((sanitize(key), sanitize(value)))
+            sql_vars.append((sanitize(key), sanitize(dparams[key])))
         elif key.startswith('#'):
-            sql_replace.append((sanitize(key), sanitize(value)))
+            sql_replace.append((sanitize(key), sanitize(dparams[key])))
     return sql_vars, sql_replace
 
 
