@@ -12,7 +12,8 @@ def get_args():
     parser.add_argument('--name', nargs=1, required=True, help='"task name"')
     parser.add_argument('--phones', nargs='+', help='phone list')
     parser.add_argument('--emails', nargs='+', help='email list')
-    parser.add_argument('--cron', nargs=5, help='five column cron entry')
+    parser.add_argument('--cron', nargs=1, required=True,
+                        help='one string with cron schedule')
     parser.add_argument('--sql_file', nargs=1, required=True,
                         help='path to sql file')
     parser.add_argument('--params', nargs='*',
@@ -57,13 +58,13 @@ def make_body(name, phones, mails, cron, sql_file, params):
         sanitize(name),
         ','.join(['"%s"' % (p,) for p in phones]),
         ','.join(['"%s"' % (e,) for e in emails]),
-        ','.join(['"%s"' % (c,) for c in cron]),
+        cron,
         sql)
 
 
 if __name__ == '__main__':
     args = get_args()
-    body = make_body(args.name[0], args.phones, args.emails, args.cron,
+    body = make_body(args.name[0], args.phones, args.emails, args.cron[0],
                      args.sql_file[0], args.params)
     sys.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base.bootstrap import get_mq_params
