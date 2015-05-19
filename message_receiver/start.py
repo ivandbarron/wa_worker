@@ -3,8 +3,8 @@ import os
 import json
 import sys
 import messenger
-sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
-from wa_worker.base.bootstrap import start
+sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'base'))
+from bootstrap import start
 
 
 def parse_body(body):

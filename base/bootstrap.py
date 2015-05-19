@@ -1,7 +1,6 @@
 import logging
 import os
 import json
-import receive
 import sys
 import time
 import etcd

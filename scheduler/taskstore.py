@@ -1,4 +1,3 @@
-import pdb
 import sys
 import os
 import argparse
@@ -8,10 +7,10 @@ import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
-pdb.set_trace()
-sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
-from wa_worker.base.bootstrap import get_mq_params
-from wa_worker.message_receiver.utilities.send_message import make_body, send
+sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'base'))
+from bootstrap import get_mq_params
+sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker', 'message_receiver', 'utilities'))
+from send_message import make_body, send
 
 
 def get_args():
