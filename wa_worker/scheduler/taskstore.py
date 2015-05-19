@@ -121,7 +121,7 @@ def run_task(name):
 
 def config_taskstore():
     if len(sys.argv) < 5:
-        print('''Usage for configure exec_task.ini for database connection:
+        print('''Usage for configure taskstore.ini for database connection:
             python taskstore.py host user password database
             python taskstore.py host user password database encrypt_key
 
@@ -152,8 +152,8 @@ def config_taskstore():
 
 
 if __name__ == '__main__':
-    args = get_args()
-    if args.task_name:
+    if len(sys.argv) == 3:
+        args = get_args()
         run_task(args.taskname[0])
     else:
         config_taskstore()
