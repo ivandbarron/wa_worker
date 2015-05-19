@@ -25,8 +25,8 @@ def parse_add(_json):
         raise Exception('"phones" must be list')
     if type(_json['mails']) != list:
         raise Exception('"mails" must be list')
-    if type(_json['cron']) != list:
-        raise Exception('"cron" must be list')
+    if not type(_json['cron']) in (str, bin, unicode):
+        raise Exception('"cron" must be a text')
     if not type(_json['sql']) in (str, bin, unicode):
         raise Exception('"msg" must be a text')
     return {
@@ -47,12 +47,14 @@ def parse_body(body):
         "task_name": "a unique name for task",
         "phones": ["5212287779788", "5212287779789"],
         "mails": ["ivandavid77@gmail.com","dbarron@crediland.com.mx"],
-        "cron": ["0","9-21/1","*","*","*"],
+        "cron": "0 9-21/1 * * *",
         "sql": "some sql#13to execute;#13many queries#13separated by;"
     } '''
     try:
+        logging.info('Original message:\n \s' % (body,))
         _json = json.loads(body)
-    except ValueError:
+    except ValueError as e:
+        logging.error('Malformed json: \n %s' % (str(e),))
         raise Exception('Malformed string')
     if not 'operation' in _json:
         raise Exception('"operation" was not specified')

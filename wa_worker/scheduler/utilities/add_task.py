@@ -38,7 +38,7 @@ def sanitize_params(params):
 
 
 def sanitize(text):
-    return ((text.replace('"', '\"')).replace('\n', '#13')).replace('%', '%%')
+    return (text.replace('"', '\"')).replace('\n', '#13')
 
 
 def make_body(name, phones, emails, cron, sql_file, params):
@@ -54,7 +54,7 @@ def make_body(name, phones, emails, cron, sql_file, params):
 "task_name": "%s",
 "phones": [%s],
 "mails": [%s],
-"cron": [%s],
+"cron": "%s",
 "sql": "%s"}''' % (
         sanitize(name),
         ','.join(['"%s"' % (p,) for p in phones]),
