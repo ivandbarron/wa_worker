@@ -22,7 +22,7 @@ def get_mq_params(mq_name):
     return service['host'], int(service['port']), queue
 
 
-def rceive_from_queue(host, port, queue, callback):
+def receive_from_queue(host, port, queue, callback):
     conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)

@@ -2,8 +2,9 @@ import os
 import json
 import sys
 import uuid
-import pika
 import argparse
+import logging
+import pika
 from RpcClient import RpcClient
 
 

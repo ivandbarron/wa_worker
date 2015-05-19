@@ -1,5 +1,6 @@
 import pika
 import uuid
+import logging
 
 class RpcClient(object):
     def __init__(self, host, port):
