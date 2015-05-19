@@ -18,7 +18,7 @@ class RpcClient(object):
     def call(self, body, queue):
         self.response = None
         self.corr_id = str(uuid.uuid4())
-        self.channel.publish(exchange='', routing_key=queue,
+        self.channel.basic_publish(exchange='', routing_key=queue,
                              properties=pika.BasicProperties(
                                 reply_to=self.callback_queue,
                                 correlation_id=self.corr_id,
