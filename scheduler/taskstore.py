@@ -3,7 +3,7 @@ import os
 import argparse
 import base64
 import logging
-import mysql.connect
+import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
@@ -72,7 +72,7 @@ def do_sql(sqlfile):
     host, user, password, db = get_config()
     conn = None
     try:
-        conn = mysql.connect.connect(user=user, password=password, host=host,
+        conn = mysql.connector.connect(user=user, password=password, host=host,
                                      database=db, charset='latin1',
                                      use_unicode=True)
         cursor = conn.cursor()
