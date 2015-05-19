@@ -66,7 +66,7 @@ if __name__ == '__main__':
     args = get_args()
     body = make_body(args.name[0], args.phones, args.emails, args.cron[0],
                      args.sql_file[0], args.params)
-    sys.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
+    sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base.bootstrap import get_mq_params
     host, port, queue = get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
     rpc = RpcClient(host, port)
