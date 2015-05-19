@@ -12,7 +12,7 @@ def get_args():
     parser.add_argument('--name', nargs=1, required=True, help='"task name"')
     parser.add_argument('--phones', nargs='+', help='phone list')
     parser.add_argument('--emails', nargs='+', help='email list')
-    parser.add_argument('--cron', nargs='5', help='five column cron entry')
+    parser.add_argument('--cron', nargs=5, help='five column cron entry')
     parser.add_argument('--sql_file', nargs=1, required=True,
                         help='path to sql file')
     parser.add_argument('--params', nargs='*',
