@@ -5,6 +5,7 @@ import sys
 import logging
 import crontab
 import taskstore
+sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
 from wa_worker.base.bootstrap import start
 
 

@@ -1,8 +1,9 @@
 import logging
 import os
 import json
-import logging
+import sys
 import messenger
+sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
 from wa_worker.base.bootstrap import start
 
 
