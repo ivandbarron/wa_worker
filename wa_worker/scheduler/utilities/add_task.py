@@ -40,14 +40,14 @@ def sanitize(text):
     return ((text.replace('"', '\"')).replace('\n', '#13')).replace('%', '%%')
 
 
-def make_body(name, phones, mails, cron, sql_file, params):
+def make_body(name, phones, emails, cron, sql_file, params):
     with open(sql_file) as f:
         sql = ''.join([sanitize(line) for line in f])
     sql_vars, sql_replace = sanitize_params(params)
-    for key, value in sql_replace:
-        sql = sql.replace(key, value)
-    for key, value in sql_vars:
-        sql = 'SELECT %s INTO %s;#13' % (value, key) + sql
+    for key in sql_replace:
+        sql = sql.replace(key, sql_replace[key])
+    for key in sql_vars:
+        sql = 'SELECT %s INTO %s;#13' % (sql_vars[key], key) + sql
     return '''{
 "operation": "add",
 "task_name": "%s",
