@@ -136,7 +136,7 @@ def config_taskstore():
     user = sys.argv[2]
     password = sys.argv[3]
     db = sys.argv[4]
-    if sys.argv == 5:
+    if len(sys.argv) == 5:
         secret = os.getenv('SECRET_KEY', 'my_secret_key') #get secret from env
     else:
         secret = sys.argv[5] #get secret by param
