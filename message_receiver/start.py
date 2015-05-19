@@ -1,6 +1,7 @@
 import logging
 import os
 import json
+import logging
 import messenger
 from wa_worker.base.bootstrap import start
 

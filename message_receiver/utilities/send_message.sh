@@ -1,7 +1,9 @@
+#!/usr/bin/env bash
 python send_message.py \
 --name "venta_por_hora_todos" \
 --phones 5212287779788
 --emails dbarron@crediland.com.mx
+--cron 0 9-21/1 * * 1-6
 --sql_file queries/venta.dia_semana.sql
 --params \
     @FECHA_ACTUAL=CURDATE() \

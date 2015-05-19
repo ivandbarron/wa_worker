@@ -3,6 +3,7 @@ import uuid
 import pika
 import argparse
 from wa_worker.base.bootstrap import get_mq_params
+from .RpcClient import RpcClient
 
 
 def get_args():
@@ -10,6 +11,7 @@ def get_args():
     parser.add_argument('--name', nargs=1, required=True, help='"task name"')
     parser.add_argument('--phones', nargs='+', help='phone list')
     parser.add_argument('--emails', nargs='+', help='email list')
+    parser.add_argument('--cron', nargs='5', help='five column cron entry')
     parser.add_argument('--sql_file', nargs=1, required=True,
                         help='path to sql file')
     parser.add_argument('--params', nargs='*',
@@ -36,9 +38,9 @@ def sanitize(text):
     return ((text.replace('"', '\"')).replace('\n', '#13')).replace('%', '%%')
 
 
-def make_body(name, phones, mails, sql_file, params):
+def make_body(name, phones, mails, cron, sql_file, params):
     with open(sql_file) as f:
-        sql = [sanitize(line) for line in f]
+        sql = ''.join([sanitize(line) for line in f])
     sql_vars, sql_replace = sanitize_params(params)
     for key, value in sql_replace:
         sql = sql.replace(key, value)
@@ -49,20 +51,19 @@ def make_body(name, phones, mails, sql_file, params):
 "task_name": "%s",
 "phones": [%s],
 "mails": [%s],
+"cron": [%s]
 "sql": "%s"}''' % (
         sanitize(name),
         ','.join(['"%s"' % (p,) for p in phones]),
         ','.join(['"%s"' % (e,) for e in emails]),
+        ','.join(['"%s"' % (c,) for c in cron]),
         sql)
 
 
 if __name__ == '__main__':
     args = get_args()
-    body = make_body(args.name[0], args.phones, args.emails, args.sql_file[0],
-                     args.params)
+    body = make_body(args.name[0], args.phones, args.emails, args.cron,
+                     args.sql_file[0], args.params)
     host, port, queue = get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
-    conn = pika.BlockingConnection(pika.ConnectionParameters(host,port))
-    channel = conn.channel()
-    channel.queue_declare(queue=queue)
-    channel.basic_publish(exchange='', routing_key=queue, body=body)
-    conn.close()
+    rpc = RpcClient(host, port)
+    print(rpc.call(body, queue))

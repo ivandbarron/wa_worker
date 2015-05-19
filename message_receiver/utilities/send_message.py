@@ -22,12 +22,16 @@ def make_body(phones, emails, message):
         message)
 
 
-if __name__ == '__main__':
-    args = get_args()
-    body = make_body(args.phones, args.emails, args.message[0])
-    host, port, queue = get_mq_params('MQ_SEND_MESSAGE_QUEUE')
+def send(host, port, queue, body):
     conn = pika.BlockingConnection(pika.ConnectionParameters(host, port))
     channel = conn.channel()
     channel.queue_declare(queue=queue)
     channel.basic_publish(exchange='', routing_key=queue, body=body)
     conn.close()
+
+
+if __name__ == '__main__':
+    args = get_args()
+    body = make_body(args.phones, args.emails, args.message[0])
+    host, port, queue = get_mq_params('MQ_SEND_MESSAGE_QUEUE')
+    send(host, port, queue, body)

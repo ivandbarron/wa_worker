@@ -3,3 +3,6 @@ python-etcd==0.3.3
 yowsup2==2.2.79
 simple-crypt==4.0.0
 pika==0.9.14
+python-crontab==1.9.3
+--allow-external mysql-connector-python
+mysql-connector-python==2.0.3

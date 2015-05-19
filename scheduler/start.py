@@ -2,7 +2,40 @@ import logging
 import os
 import json
 import sys
+import logging
+import crontab
+import taskstore
 from wa_worker.base.bootstrap import start
+
+
+def parse_add(_json):
+    if not 'task_name' in _json:
+        raise Exception('"task_name" was not specified')
+    if not 'phones' in _json:
+        raise Exception('"phones" was not specified')
+    if not 'mails' in _json:
+        raise Exception('"mails" was not specified')
+    if not 'cron' in _json:
+        raise Exception('"cron" was not specified')
+    if not 'sql' in _json:
+        raise Exception('"sql" was not specified')
+    if not type(_json['task_name']) in (str, bin, unicode):
+        raise Exception('"task_name" must be a text')
+    if type(_json['phones']) != list:
+        raise Exception('"phones" must be list')
+    if type(_json['mails']) != list:
+        raise Exception('"mails" must be list')
+    if type(_json['cron']) != list:
+        raise Exception('"cron" must be list')
+    if not type(_json['sql']) in (str, bin, unicode):
+        raise Exception('"msg" must be a text')
+    return {
+            'task_name': _json['task_name'],
+            'phones': _json['phones'],
+            'mails': _json['mails'],
+            'cron': _json['cron'],
+            'sql': _json['sql'].replace('#13', '\n')
+        }
 
 
 def parse_body(body):
@@ -10,46 +43,49 @@ def parse_body(body):
     {
         "operation": "add" or "rm" or "status"
 
-        -- if operation == "add":
+        if operation == "add" then next keys must defined:
         "task_name": "a unique name for task",
         "phones": ["5212287779788", "5212287779789"],
         "mails": ["ivandavid77@gmail.com","dbarron@crediland.com.mx"],
+        "cron": ["0","9-21/1","*","*","*"],
         "sql": "some sql#13to execute;#13many queries#13separated by;"
     } '''
     try:
         _json = json.loads(body)
     except ValueError:
         raise Exception('Malformed string')
-    if not 'phones' in _json:
-        raise Exception('"phones" was not specified')
-    if not 'mails' in _json:
-        raise Exception('"mails" was not specified')
-    if not 'msg' in _json:
-        raise Exception('"msg" was not specified')
-    if type(_json['phones']) != list:
-        raise Exception('"phones" must be list')
-    if type(_json['mails']) != list:
-        raise Exception('"mails" must be list')
-    if not type(_json['msg']) in (str, bin, unicode):
-        raise Exception('"msg" must be a text')
-    return _json['phones'], _json['mails'], _json['msg'].replace('#13', '\n')
+    if not 'operation' in _json:
+        raise Exception('"operation" was not specified')
+    if 'operation' == 'add':
+        return _json['operation'], parse_add(_json)
 
 
-def callback(ch, method, properties, body):
+def handle_operation(op, data):
+    if op == 'add':
+        return taskstore.add_task(
+            data['task_name'],
+            data['cron'],
+            data['phones'],
+            data['mails'],
+            data['sql'])
+
+
+def callback(ch, method, props, body):
     try:
-        phones, mails, msg = parse_body(body)
-        logging.info('Trying to send message...')
-        try:
-            messenger.send(phones, mails, msg)
-            ch.basic_ack(delivery_tag=method.delivery_tag)
-            logging.info('Message was processed')
-        except Exception as e:
-            logging.warn('Sending problem: %r' % (str(e),))
-            logging.info('Message was NOT processed')
+        operation, data = parse_body(body)
+        handle_operation(operation, data)
+        logging.info('Message was processed')
+        result = '{"result": "sucess"}'
     except Exception as e:
-        ch.basic_ack(delivery_tag=method.delivery_tag)
-        logging.error('Message discarted because error parsing json: %r' % (
-            str(e),))
+        error = 'Message discarted : %r' % (str(e),)
+        result = '{"result": "error", "msg" : "%s"}' % (error,)
+        logging.error(error)
+    ch.basic_publish(exchange='',
+                     routing_key=props.reply_to,
+                     properties=pika.BasicProperties(correlation_id =
+                                                     props.correlation_id),
+                     body=result)
+    ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
 if __name__ == '__main__':
