@@ -47,8 +47,10 @@ def make_body(name, phones, emails, cron, sql_file, params):
     sql_vars, sql_replace = sanitize_params(params)
     for key, value in sql_replace:
         sql = sql.replace(key, value)
+    tmp = ''
     for key, value in sql_vars:
-        sql = 'SELECT %s INTO %s;#13' % (value, key) + sql
+        tmp = tmp + 'SELECT %s INTO %s;#13' % (value, key)
+    sql = tmp + sql
     return '''{
 "operation": "add",
 "task_name": "%s",
