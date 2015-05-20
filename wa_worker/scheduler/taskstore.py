@@ -8,17 +8,17 @@ from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
 try:
-    from wa_worker.base.bootstrap import get_mq_params
-    from wa_worker.message_receiver.utilities.send_message import make_body, send
+    from wa_worker.base import bootstrap
+    from wa_worker.message_receiver.utilities import send_message
 except ImportError:
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
-    from wa_worker.base.bootstrap import get_mq_params
-    from wa_worker.message_receiver.utilities.send_message import make_body, send
+    from wa_worker.base import bootstrap
+    from wa_worker.message_receiver.utilities import send_message
 
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task_name', nargs=1, required=False,
+    parser.add_argument('--task', nargs=1, required=False,
                         help='"task to execute"')
     parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
@@ -111,13 +111,13 @@ def get_sql(task_folder):
 
 
 def run_task(name):
-    task_folder = get_task_folder()
+    task_folder = get_task_folder(name)
     phones, emails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
-    body = make_body(phones, emails, result.replace('\n', '#13'))
-    host, port, queue = get_mq_params('MQ_SEND_MESSAGE_QUEUE')
-    send(host, port, queue, body)
+    body = send_message.make_body(phones, emails, result)
+    host, port, queue = bootstrap.get_mq_params('MQ_SEND_MESSAGE_QUEUE')
+    send_message.send(host, port, queue, body)
 
 
 def config_taskstore():
@@ -163,6 +163,6 @@ if __name__ == '__main__':
         args = get_args()
         init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
                     args.debug)
-        run_task(args.taskname[0])
+        run_task(args.task[0])
     else:
         config_taskstore()

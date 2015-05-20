@@ -18,7 +18,7 @@ def make_body(phones, emails, message):
     return '{"phones":[%s], "emails":[%s], "message": "%s"}' % (
         ','.join(['"%s"' % (p,) for p in phones]),
         ','.join(['"%s"' % (e,) for e in emails]),
-        message)
+        message.replace('\n', '#13'))
 
 
 def send(host, port, queue, body):
