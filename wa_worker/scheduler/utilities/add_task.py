@@ -77,5 +77,5 @@ if __name__ == '__main__':
     from wa_worker.base.bootstrap import get_mq_params
     host, port, queue = get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
     rpc = RpcClient(host, port)
-    logging.info('Sending info to queue %r : %s' % (queue, body))
+    logging.debug('Sending info to queue %r : %s' % (queue, body))
     print(rpc.call(body, queue))

@@ -51,7 +51,6 @@ def parse_body(body):
         "sql": "some sql#13to execute;#13many queries#13separated by;"
     } '''
     try:
-        logging.info('Original message:\n \s' % (body,))
         _json = json.loads(body)
     except ValueError as e:
         logging.error('Malformed json: \n %s' % (str(e),))

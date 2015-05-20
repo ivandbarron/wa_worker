@@ -30,7 +30,7 @@ def get_task_folder(name):
 
 
 def add_task(name, cron, phones, emails, sql):
-    task_folder = get_task_folder()
+    task_folder = get_task_folder(name)
     if not os.path.exists(task_folder):
         os.makedirs(task_folder)
     with open(os.path.join(task_folder, 'config.ini'), 'w') as f:
