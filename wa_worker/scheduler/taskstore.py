@@ -20,6 +20,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--task_name', nargs=1, required=False,
                         help='"task to execute"')
+    parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
 
 
@@ -151,9 +152,17 @@ def config_taskstore():
         print('done')
 
 
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 3:
         args = get_args()
+        init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
+                    args.debug)
         run_task(args.taskname[0])
     else:
         config_taskstore()
