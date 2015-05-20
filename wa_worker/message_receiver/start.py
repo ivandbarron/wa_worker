@@ -34,22 +34,29 @@ def parse_body(body):
 def callback(ch, method, properties, body):
     try:
         phones, mails, msg = parse_body(body)
-        logging.info('Trying to send message...')
+        logging.debug('Trying to send message...')
         try:
             messenger.send(phones, mails, msg)
             ch.basic_ack(delivery_tag=method.delivery_tag)
-            logging.info('Message was processed')
+            logging.debug('Message was processed')
         except Exception as e:
             logging.warn('Sending problem: %r' % (str(e),))
-            logging.info('Message was NOT processed')
+            logging.debug('Message was NOT processed')
     except Exception as e:
         ch.basic_ack(delivery_tag=method.delivery_tag)
         logging.error('Message discarted because error parsing json: %r' % (
             str(e),))
 
 
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+
+
 if __name__ == '__main__':
+    debug = True if len(sys.argv) == 2 and sys.argv[1] == '-d' else False
+    init_logger(os.path.join(os.path.dirname(__file__), 'start.log'), debug)
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base.bootstrap import start
-    log = os.path.join(os.path.dirname(__file__), 'start.log')
-    start('MQ_SEND_MESSAGE_QUEUE', callback, log)
+    start('MQ_SEND_MESSAGE_QUEUE', callback)

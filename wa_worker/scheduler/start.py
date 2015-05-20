@@ -75,7 +75,7 @@ def callback(ch, method, props, body):
     try:
         operation, data = parse_body(body)
         handle_operation(operation, data)
-        logging.info('Message was processed')
+        logging.debug('Message was processed')
         result = '{"result": "sucess"}'
     except Exception as e:
         error = 'Message discarted : %r' % (str(e),)
@@ -89,8 +89,15 @@ def callback(ch, method, props, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+
+
 if __name__ == '__main__':
+    debug = True if len(sys.argv) == 2 and sys.argv[1] == '-d' else False
+    init_logger(os.path.join(os.path.dirname(__file__), 'start.log'), debug)
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base.bootstrap import start
-    log = os.path.join(os.path.dirname(__file__), 'start.log')
-    start('MQ_TASK_MANAGEMENT_QUEUE', callback, log)
+    start('MQ_TASK_MANAGEMENT_QUEUE', callback)

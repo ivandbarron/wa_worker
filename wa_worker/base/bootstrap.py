@@ -7,11 +7,6 @@ import etcd
 import pika
 
 
-def init_logger(log_name):
-    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-        datefmt='%d/%m/%Y %I:%M:%S %p', level=logging.INFO, filename=log_name)
-
-
 def get_mq_params(mq_name):
     etcd_endpoint = os.getenv('ETCD_ENDPOINT', '127.0.0.1')
     etcd_port = int(os.getenv('ETCD_PORT', '4001'))
@@ -30,8 +25,7 @@ def receive_from_queue(host, port, queue, callback):
     channel.start_consuming()
 
 
-def start(mq_name, callback, log_name):
-    init_logger(log_name)
+def start(mq_name, callback):
     while True:
         host, port, queue = get_mq_params(mq_name)
         try:
