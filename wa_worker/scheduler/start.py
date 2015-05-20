@@ -57,8 +57,8 @@ def parse_body(body):
         raise Exception('Malformed string')
     if not 'operation' in _json:
         raise Exception('"operation" was not specified')
-    if 'operation' == 'add':
-        return _json['operation'], parse_add(_json)
+    if _json['operation'] == 'add':
+        return 'add', parse_add(_json)
 
 
 def handle_operation(op, data):
