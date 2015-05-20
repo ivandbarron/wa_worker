@@ -42,7 +42,7 @@ def add_task(name, cron, phones, emails, sql):
     crond = CronTab(user=True)
     job = crond.new(command='/usr/bin/python '+__file__+' --task_name '+name)
     job.set_comment(name)
-    job.setall(' '.join(cron))
+    job.setall(cron)
     crond.write_to_user(user=True)
 
 
