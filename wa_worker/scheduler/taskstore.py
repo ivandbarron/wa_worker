@@ -41,7 +41,7 @@ def add_task(name, cron, phones, emails, sql):
     with open(os.path.join(task_folder, 'query.sql'), 'w') as f:
         f.write(sql)
     crond = CronTab(user=True)
-    job = crond.new(command='/usr/bin/python '+__file__+' --task_name '+name)
+    job = crond.new(command='/usr/bin/python '+__file__+' --task '+name)
     job.set_comment(name)
     job.setall(cron)
     crond.write_to_user(user=True)
