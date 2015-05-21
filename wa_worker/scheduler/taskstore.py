@@ -42,8 +42,8 @@ def add_task(name, cron, phones, mails, sql):
         f.write(sql)
     crond = CronTab(user=True)
     job = crond.new(
-        command='/usr/bin/bash %s/wa_worker/wa_worker/scheduler/taskstore.sh %s'
-            % (os.getenv('MOUNT_POINT'), name))
+        command='%s/wa_worker/wa_worker/scheduler/taskstore.sh %s' %
+        (os.getenv('MOUNT_POINT'), name))
     job.set_comment(name)
     job.setall(cron)
     crond.write_to_user(user=True)
