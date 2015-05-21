@@ -12,7 +12,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', nargs=1, required=True, help='"task name"')
     parser.add_argument('--phones', nargs='+', help='phone list')
-    parser.add_argument('--emails', nargs='+', help='email list')
+    parser.add_argument('--mails', nargs='+', help='mail list')
     parser.add_argument('--cron', nargs=1, required=True,
                         help='one string with cron schedule')
     parser.add_argument('--sql_file', nargs=1, required=True,
@@ -41,7 +41,7 @@ def sanitize(text):
     return (text.replace('"', '\"')).replace('\n', '#13')
 
 
-def make_body(name, phones, emails, cron, sql_file, params):
+def make_body(name, phones, mails, cron, sql_file, params):
     with open(sql_file) as f:
         sql = ''.join([sanitize(line) for line in f])
     sql_vars, sql_replace = sanitize_params(params)
@@ -60,7 +60,7 @@ def make_body(name, phones, emails, cron, sql_file, params):
 "sql": "%s"}''' % (
         sanitize(name),
         ','.join(['"%s"' % (p,) for p in phones]),
-        ','.join(['"%s"' % (e,) for e in emails]),
+        ','.join(['"%s"' % (e,) for e in mails]),
         cron,
         sql)
 
@@ -73,11 +73,11 @@ def init_logger(log_name):
 if __name__ == '__main__':
     init_logger(os.path.join(os.path.dirname(__file__), 'add_task.log'))
     args = get_args()
-    body = make_body(args.name[0], args.phones, args.emails, args.cron[0],
+    body = make_body(args.name[0], args.phones, args.mails, args.cron[0],
                      args.sql_file[0], args.params)
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
-    from wa_worker.base.bootstrap import get_mq_params
-    host, port, queue = get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
+    from wa_worker.base import bootstrap
+    host, port, queue = bootstrap.get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
     rpc = RpcClient(host, port)
     logging.debug('Sending info to queue %r : %s' % (queue, body))
     print(rpc.call(body, queue))

@@ -54,9 +54,9 @@ def make_template(From, To, Subject, Content):
     return mail
 
 
-def send(rcpt, message):
+def send(rcpt, msg):
     host, user, password, admin = get_config()
-    mail = make_template(user, rcpt, 'Reporte', message)
+    mail = make_template(user, rcpt, 'Reporte', msg)
     conn = connect_to_smtp(host, user, password)
     logging.info('Sending to emails: '+', '.join(rcpt))
     result = conn.sendmail(user, rcpt, mail.as_string())
@@ -68,9 +68,9 @@ def send(rcpt, message):
             pass
 
 
-def send_to_admin(message):
+def send_to_admin(msg):
     host, user, password, admin = get_config()
-    mail = make_template(user, [admin], 'Whatsapp Error!', message)
+    mail = make_template(user, [admin], 'Whatsapp Error!', msg)
     conn = connect_to_smtp(host, user, password)
     conn.sendmail(user, [admin], mail.as_string())
     conn.close()

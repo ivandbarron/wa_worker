@@ -2,7 +2,7 @@
 python add_task.py \
 --name "venta_david" \
 --phones 5212287779788 \
---emails dbarron@crediland.com.mx \
+--mails dbarron@crediland.com.mx \
 --cron "*/5 * * * *" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.dia_semana.sql \
 --params \

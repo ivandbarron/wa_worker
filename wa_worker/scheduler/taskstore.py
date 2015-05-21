@@ -30,14 +30,14 @@ def get_task_folder(name):
     return os.path.join(taskstore_path, name)
 
 
-def add_task(name, cron, phones, emails, sql):
+def add_task(name, cron, phones, mails, sql):
     task_folder = get_task_folder(name)
     if not os.path.exists(task_folder):
         os.makedirs(task_folder)
     with open(os.path.join(task_folder, 'config.ini'), 'w') as f:
         f.write('[dest]\n')
         f.write('phones=%s\n' % (','.join(phones),))
-        f.write('emails=%s\n' % (','.join(emails),))
+        f.write('mails=%s\n' % (','.join(mails),))
     with open(os.path.join(task_folder, 'query.sql'), 'w') as f:
         f.write(sql)
     crond = CronTab(user=True)
@@ -102,8 +102,8 @@ def get_dest(task_folder):
     config = ConfigParser()
     config.read(os.path.join(task_folder, 'config.ini'))
     phones = (config.get('dest', 'phones')).split(',')
-    emails = (config.get('dest', 'emails')).split(',')
-    return phones, emails
+    mails = (config.get('dest', 'mails')).split(',')
+    return phones, mails
 
 
 def get_sql(task_folder):
@@ -112,13 +112,13 @@ def get_sql(task_folder):
 
 def run_task(name):
     task_folder = get_task_folder(name)
-    phones, emails = get_dest(task_folder)
+    phones, mails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
     if result:
-        body = send_message.make_body(phones, emails, result)
+        body = send_message.make_body(phones, mails, result)
     else:
-        body = send_message.make_body(phones, emails, 'Task %r was executed' %
+        body = send_message.make_body(phones, mails, 'Task %r was executed' %
                                       (name,))
     host, port, queue = bootstrap.get_mq_params('MQ_SEND_MESSAGE_QUEUE')
     send_message.send(host, port, queue, body)
