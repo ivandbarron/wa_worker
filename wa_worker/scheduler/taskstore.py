@@ -18,7 +18,7 @@ try:
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
 except ImportError:
-    logging('MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+    logging.debug('MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
