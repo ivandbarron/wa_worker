@@ -19,7 +19,8 @@ try:
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
     logging.info('imported')
-except:
+except Exception as e:
+    logging.info('Exception: '+str(e))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
