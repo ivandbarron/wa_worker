@@ -12,7 +12,7 @@ def init_logger(log_name, debug=False):
     level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
         datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
-init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log', True))
+init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'), True)
 
 try:
     from wa_worker.base import bootstrap
