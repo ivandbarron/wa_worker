@@ -13,17 +13,20 @@ from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
 try:
+    logging.info('File value:'+__file__)
     logging.info('Importing bootstrap / send_message')
-    logging.debug('A) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+    logging.info('A) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
     logging.info('imported')
 except:
-    logging.debug('B) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
 
+logging.info('Here')
+logging.info('B) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+logging.info('Here 2')
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -121,7 +124,7 @@ def get_sql(task_folder):
 
 def run_task(name):
     task_folder = get_task_folder(name)
-    logging.debug('task folder: '+task_folder)
+    logging.info('task folder: '+task_folder)
     phones, mails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
