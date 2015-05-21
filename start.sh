@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
-echo ' [*] Changing timezone to Mexico City';
+echo ' [*] Changing timezone to Mexico City...';
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/America/Mexico_City /etc/localtime
+echo ''
+echo ' [*] Starting crond...'
+crond -p
 echo '';
-echo ' [*] Loading pyhon requirments...';
+echo ' [*] Loading requirements...';
 pip install -r $MOUNT_POINT/wa_worker/requirements.txt
 echo '';
 echo ' [*] Starting message receiver...';
