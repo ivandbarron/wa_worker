@@ -13,9 +13,9 @@ from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
 try:
-    logging.info('File value:'+__file__)
+    logging.info('Name value:'+__name__)
     logging.info('Importing bootstrap / send_message')
-    logging.info('A) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+    logging.info('A) MOUNT_POINT value: '+str(os.getenv('MOUNT_POINT')))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
     logging.info('imported')
@@ -25,7 +25,7 @@ except:
     from wa_worker.message_receiver.utilities import send_message
 
 logging.info('Here')
-logging.info('B) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+logging.info('B) MOUNT_POINT value: '+str(os.getenv('MOUNT_POINT')))
 logging.info('Here 2')
 
 def get_args():
