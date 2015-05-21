@@ -17,7 +17,7 @@ def get_args():
 def make_body(phones, mails, msg):
     return '{"phones":[%s], "mails":[%s], "msg": "%s"}' % (
         ','.join(['"%s"' % (p,) for p in phones]),
-        ','.join(['"%s"' % (e,) for e in mails]),
+        ','.join(['"%s"' % (m,) for m in mails]),
         msg.replace('\n', '#13'))
 
 

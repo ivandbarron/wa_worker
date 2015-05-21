@@ -6,7 +6,7 @@ python task_manager.py \
 --name venta_semana \
 --phones 5212287779788 \
 --mails dbarron@crediland.com.mx \
---cron "0 10-21/1 * * 1-6" \
+--cron "0 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -19,7 +19,7 @@ python task_manager.py \
 --name venta_semana_dom \
 --phones 5212287779788 \
 --mails dbarron@crediland.com.mx \
---cron "0 11-19/1 * * 7" \
+--cron "0 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -33,7 +33,7 @@ python task_manager.py \
 --name venta_calendario \
 --phones 5212287779788 \
 --mails dbarron@crediland.com.mx \
---cron "1 10-21/1 * * 1-6" \
+--cron "1 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -46,7 +46,7 @@ python task_manager.py \
 --name venta_calendario_dom \
 --phones 5212287779788 \
 --mails dbarron@crediland.com.mx \
---cron "1 11-19/1 * * 7" \
+--cron "1 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
