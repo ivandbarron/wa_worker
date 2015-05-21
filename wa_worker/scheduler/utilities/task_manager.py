@@ -10,6 +10,7 @@ from RpcClient import RpcClient
 
 def get_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--op', nargs=1, required=True, help='"operation"')
     parser.add_argument('--name', nargs=1, required=True, help='"task name"')
     parser.add_argument('--phones', nargs='+', help='phone list')
     parser.add_argument('--mails', nargs='+', help='mail list')
@@ -41,7 +42,7 @@ def sanitize(text):
     return (text.replace('"', '\"')).replace('\n', '#13')
 
 
-def make_body(name, phones, mails, cron, sql_file, params):
+def make_add_body(name, phones, mails, cron, sql_file, params):
     with open(sql_file) as f:
         sql = ''.join([sanitize(line) for line in f])
     sql_vars, sql_replace = sanitize_params(params)
@@ -73,8 +74,13 @@ def init_logger(log_name):
 if __name__ == '__main__':
     init_logger(os.path.join(os.path.dirname(__file__), 'add_task.log'))
     args = get_args()
-    body = make_body(args.name[0], args.phones, args.mails, args.cron[0],
-                     args.sql_file[0], args.params)
+    op = args.op[0]
+    if op == 'add':
+        body = make_add_body(args.name[0], args.phones, args.mails,
+                             args.cron[0], args.sql_file[0], args.params)
+    else:
+        print('Unknown operation')
+        sys.exit(1)
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     host, port, queue = bootstrap.get_mq_params('MQ_TASK_MANAGEMENT_QUEUE')
