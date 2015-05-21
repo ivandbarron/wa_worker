@@ -14,11 +14,12 @@ from crontab import CronTab
 from simplecrypt import encrypt, decrypt
 try:
     logging.info('Importing bootstrap / send_message')
+    logging.debug('A) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
     logging.info('imported')
-except ImportError:
-    logging.debug('MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
+except:
+    logging.debug('B) MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
