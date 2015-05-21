@@ -18,7 +18,7 @@ except ImportError:
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task', nargs=1, required=False,
+    parser.add_argument('--task', nargs=1, required=True,
                         help='"task to execute"')
     parser.add_argument('--debug', action='store_true')
     return parser.parse_args()
@@ -163,10 +163,10 @@ def init_logger(log_name, debug=False):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 1:
+        config_taskstore()
+    else:
         args = get_args()
         init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
                     args.debug)
         run_task(args.task[0])
-    else:
-        config_taskstore()
