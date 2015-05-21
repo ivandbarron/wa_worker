@@ -1,10 +1,5 @@
 import logging
 import os
-def init_logger(log_name, debug=False):
-    level = logging.DEBUG if debug else logging.INFO
-    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
-init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'), True)
 import sys
 import argparse
 import base64
@@ -13,21 +8,13 @@ from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
 try:
-    logging.info('Name value:'+__name__)
-    logging.info('Importing bootstrap / send_message')
-    logging.info('A) MOUNT_POINT value: '+str(os.getenv('MOUNT_POINT')))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
-    logging.info('imported')
-except Exception as e:
-    logging.info('Exception: '+str(e))
+except:
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
 
-logging.info('Here')
-logging.info('B) MOUNT_POINT value: '+str(os.getenv('MOUNT_POINT')))
-logging.info('Here 2')
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -54,7 +41,9 @@ def add_task(name, cron, phones, mails, sql):
     with open(os.path.join(task_folder, 'query.sql'), 'w') as f:
         f.write(sql)
     crond = CronTab(user=True)
-    job = crond.new(command='/usr/bin/python '+__file__+' --task '+name)
+    job = crond.new(
+        command='/usr/bin/bash %s/wa_worker/wa_worker/scheduler/taskstore.sh %s'
+            % (os.getenv('MOUNT_POINT'), name))
     job.set_comment(name)
     job.setall(cron)
     crond.write_to_user(user=True)
@@ -170,18 +159,17 @@ def config_taskstore():
         print('done')
 
 
-#def init_logger(log_name, debug=False):
-#    level = logging.DEBUG if debug else logging.INFO
-#    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-#        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
 
 
 if __name__ == '__main__':
-    logging.info('argv value: %r' %(str(sys.argv),))
     if len(sys.argv) == 1:
         config_taskstore()
     else:
         args = get_args()
-        #init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
-        #            args.debug)
+        init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
+                    args.debug)
         run_task(args.task[0])

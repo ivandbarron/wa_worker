@@ -3,6 +3,11 @@ echo ' [*] Changing timezone to Mexico City...';
 rm /etc/localtime
 ln -s /usr/share/zoneinfo/America/Mexico_City /etc/localtime
 echo ''
+echo ' [*] Saving current ENV vars'
+env > /tmp/environment_vars
+sed -e 's/^/export\ /' /tmp/environment_vars > /tmp/set_environment_vars.sh
+chmod u+x /tmp/set_environment_vars.sh
+echo ''
 echo ' [*] Starting crond...'
 crond -p
 echo '';
