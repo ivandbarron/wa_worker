@@ -7,10 +7,18 @@ import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
+
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log', True))
+
 try:
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
 except ImportError:
+    logging('MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
@@ -112,6 +120,7 @@ def get_sql(task_folder):
 
 def run_task(name):
     task_folder = get_task_folder(name)
+    logging.debug('task folder: '+task_folder)
     phones, mails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
@@ -156,10 +165,10 @@ def config_taskstore():
         print('done')
 
 
-def init_logger(log_name, debug=False):
-    level = logging.DEBUG if debug else logging.INFO
-    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+#def init_logger(log_name, debug=False):
+#    level = logging.DEBUG if debug else logging.INFO
+#    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+#        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
 
 
 if __name__ == '__main__':
@@ -167,6 +176,6 @@ if __name__ == '__main__':
         config_taskstore()
     else:
         args = get_args()
-        init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
-                    args.debug)
+        #init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'),
+        #            args.debug)
         run_task(args.task[0])
