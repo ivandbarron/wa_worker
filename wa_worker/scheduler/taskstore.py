@@ -83,16 +83,16 @@ def do_sql(sqlfile):
                                        use_unicode=True)
         cursor = conn.cursor()
         for query in extract_queries(sqlfile):
-            cursor.execute((query,))
+            cursor.execute(query)
         row = cursor.fetchone() # Last column always do a select
         if row:
-            '''if type(resultado) is not str:
-                message += resultado.decode() + '\n\n'
+            if type(row[0]) is not str:
+                msg = row[0].decode()
             else:
-                message += resultado + '\n\n'''
-            return row[0]+'\n\n'
+                msg = row[0]
+            return msg.replace('%%', '%')+'\n\n'
         else:
-            logging.warn("Last query does not return any results")
+            return None
     finally:
         if conn:
             conn.close()
@@ -115,7 +115,11 @@ def run_task(name):
     phones, emails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
-    body = send_message.make_body(phones, emails, result)
+    if result:
+        body = send_message.make_body(phones, emails, result)
+    else:
+        body = send_message.make_body(phones, emails, 'Task %r was executed' %
+                                      (name,))
     host, port, queue = bootstrap.get_mq_params('MQ_SEND_MESSAGE_QUEUE')
     send_message.send(host, port, queue, body)
 
