@@ -114,7 +114,6 @@ def get_sql(task_folder):
 
 def run_task(name):
     task_folder = get_task_folder(name)
-    logging.info('task folder: '+task_folder)
     phones, mails = get_dest(task_folder)
     sqlfile = get_sql(task_folder)
     result = do_sql(sqlfile)
