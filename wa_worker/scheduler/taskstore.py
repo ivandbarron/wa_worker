@@ -1,3 +1,8 @@
+def init_logger(log_name, debug=False):
+    level = logging.DEBUG if debug else logging.INFO
+    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
+        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
+init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'), True)
 import sys
 import os
 import argparse
@@ -7,16 +12,11 @@ import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
 from simplecrypt import encrypt, decrypt
-
-def init_logger(log_name, debug=False):
-    level = logging.DEBUG if debug else logging.INFO
-    logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
-        datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
-init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'), True)
-
 try:
+    logging.info('Importing bootstrap / send_message')
     from wa_worker.base import bootstrap
     from wa_worker.message_receiver.utilities import send_message
+    logging.info('imported')
 except ImportError:
     logging.debug('MOUNT_POINT value: '+os.getenv('MOUNT_POINT'))
     sys.path.append(os.path.join(os.getenv('MOUNT_POINT'), 'wa_worker'))
@@ -172,6 +172,7 @@ def config_taskstore():
 
 
 if __name__ == '__main__':
+    logging.info('argv value: %r' %(str(sys.argv),))
     if len(sys.argv) == 1:
         config_taskstore()
     else:
