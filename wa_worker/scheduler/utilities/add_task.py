@@ -26,14 +26,14 @@ def sanitize_params(params):
     '''Example ("@" is for var declaration, "#" is for replace content inside sql query):
     --params @FECHA_ACTUAL=CURDATE()   "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 364 DAY)"   "@LEYENDA=CONCAT('Del mismo dia en la semana ',WEEK(@FECHA_ACTUAL,6),' del anio')"   "#FILTROS=v.clave_muebleria NOT LIKE 'TCI%' AND v.clave_muebleria NOT IN ('TC00','TC96','TC43','TC99')"
     '''
-    dparams = {p.split('=',1)[0]: p.split('=',1)[1] for p in params}
+    dparams = [(p.split('=',1)[0], p.split('=',1)[1]) for p in params]
     sql_vars = []
     sql_replace = []
-    for key in dparams:
+    for key, value in dparams:
         if key.startswith('@'):
-            sql_vars.append((sanitize(key), sanitize(dparams[key])))
+            sql_vars.append((sanitize(key), sanitize(value)))
         elif key.startswith('#'):
-            sql_replace.append((sanitize(key), sanitize(dparams[key])))
+            sql_replace.append((sanitize(key), sanitize(value)))
     return sql_vars, sql_replace
 
 
