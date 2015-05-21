@@ -1,13 +1,13 @@
+import logging
+import os
 def init_logger(log_name, debug=False):
     level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(format='[%(asctime)s] %(levelname)s : %(message)s',
         datefmt='%d/%m/%Y %I:%M:%S %p', level=level, filename=log_name)
 init_logger(os.path.join(os.path.dirname(__file__), 'taskstore.log'), True)
 import sys
-import os
 import argparse
 import base64
-import logging
 import mysql.connector
 from ConfigParser import ConfigParser
 from crontab import CronTab
