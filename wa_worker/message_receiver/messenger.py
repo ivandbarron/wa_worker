@@ -1,4 +1,5 @@
 import logging
+import time
 import keystore
 import mail
 from stack import SendStack
@@ -22,34 +23,52 @@ def send_mail(mails, msg):
             mails, str(e)))
 
 
+def send_wa(account, password, messages):
+    intents = 2
+    sucess = False
+    sleep = False
+    while not sucess and intents >= 1:
+        if sleep:
+            time.sleep(60)
+        try:
+            stack = SendStack((account, password), messages)
+            try:
+                stack.start()
+            except KeyboardInterrupt: #Sucess!
+                sucess = True
+        except AuthError:
+            if intents == 2: #First time that happen in this session
+                logging.warn('Failed auth for account %r, retrying in 1 min.' %
+                             (account,))
+                sleep = True
+                intents -= 1
+            else:
+                error = 'Failed auth for account %s' % (account,)
+                logging.warn(error)
+                send_mail_to_admin(error)
+                break
+        except Exception as e:
+            error = 'Exception: %r, using account: %s' % (str(e), account)
+            logging.error(error)
+            send_mail_to_admin(error)
+            intents -= 1
+    return sucess
+
+
 def send(phones, mails, msg):
     messages = []
     for phone in phones:
         messages.append((phone, msg))
     sucess = False
     generator = keystore.get_credentials()
-    while True:
+    while not sucess:
         try:
             account, password = next(generator)
-            try:
-                stack = SendStack((account, password), messages)
-                try:
-                    stack.start()
-                except KeyboardInterrupt: #Sucess!
-                    sucess = True
-                    break
-            except AuthError:
-                error = 'Failed auth for account %s' % (account,)
-                logging.warn(error)
-                send_mail_to_admin(error)
-            except Exception as e:
-                error = 'Exception: %r, using account: %s' % (str(e), account)
-                logging.error(error)
-                send_mail_to_admin(error)
+            sucess = send_wa(account, password, messages)
         except StopIteration:
             break
         except Exception as e:
-            error = 'Error getting credentials: %r' % (str(e),)
+            error = 'Error in local keystore: %r' % (str(e),)
             logging.error(error)
             send_mail_to_admin(error)
             continue
