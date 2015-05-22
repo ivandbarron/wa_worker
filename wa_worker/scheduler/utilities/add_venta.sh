@@ -4,9 +4,9 @@
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_semana \
---phones 5212287779788 \
---mails dbarron@crediland.com.mx \
---cron "0 10-21 * * 1-6" \
+--phones 5212281049167 5212281049275 5212289790978 5212281404251 \
+--mails nmoreira@crediland.com.mx pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--cron "5 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -17,9 +17,9 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_semana_dom \
---phones 5212287779788 \
---mails dbarron@crediland.com.mx \
---cron "0 11-19 * * 0" \
+--phones 5212281049167 5212281049275 5212289790978 5212281404251 \
+--mails nmoreira@crediland.com.mx pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--cron "5 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -31,9 +31,9 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario \
---phones 5212287779788 \
---mails dbarron@crediland.com.mx \
---cron "1 10-21 * * 1-6" \
+--phones 5212281049167 5212281049275 5212289790978 5212281404251 \
+--mails nmoreira@crediland.com.mx pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--cron "6 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -44,9 +44,9 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario_dom \
---phones 5212287779788 \
---mails dbarron@crediland.com.mx \
---cron "1 11-19 * * 0" \
+--phones 5212281049167 5212281049275 5212289790978 5212281404251 \
+--mails nmoreira@crediland.com.mx pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--cron "6 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
