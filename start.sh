@@ -22,6 +22,10 @@ python $MOUNT_POINT/wa_worker/wa_worker/message_receiver/start.py &
 echo '';
 echo ' [*] Starting scheduler...';
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/start.py &
+echo ''
+echo ' [*] Adding default task...'
+$MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_venta.sh
+$MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_cierre.sh
 while true; do
     echo ' [*] running...';
     sleep 10;
