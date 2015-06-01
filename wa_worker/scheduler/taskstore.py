@@ -70,7 +70,7 @@ def extract_queries(filename):
         for line in file_obj:
             if line == '\n' or line.startswith('#'):
                 continue
-            buffer += line.replace('%','%%')
+            buffer += line
             if line.endswith(';\n') or line.endswith(';'):
                 yield buffer
                 buffer = ''
@@ -92,7 +92,7 @@ def do_sql(sqlfile):
                 msg = row[0].decode()
             else:
                 msg = row[0]
-            return msg.replace('%%', '%')+'\n\n'
+            return msg+'\n\n'
         else:
             return None
     finally:
