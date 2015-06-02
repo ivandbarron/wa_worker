@@ -15,7 +15,7 @@ echo '*.* @@'$SYSLOG_REMOTE >> /tmp/rsyslog.conf
 mv /tmp/rsyslog.conf /etc/rsyslog.conf
 cat /etc/rsyslog.d/listen.conf | sed 's/\$SystemLogSocketName/\#\$SystemLogSocketName/g' > /tmp/listen.conf
 mv /tmp/listen.conf /etc/rsyslog.d/listen.conf
-#rsyslogd
+rsyslogd
 echo -e ' [*] Starting crond...\n'
 crond -p
 echo -e ' [*] Loading requirements...\n';
