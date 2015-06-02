@@ -11,7 +11,7 @@ sed -e 's/^/export\ /' /tmp/environment_vars >> /tmp/set_environment_vars.sh
 rm /tmp/environment_vars
 echo -e ' [*] Configuring and starting rsyslogd...\n'
 cat /etc/rsyslog.conf | sed 's/\$ModLoad\ imjournal/\#$ModLoad\ imjournal/g' | sed 's/\$OmitLocalLogging on/\$OmitLocalLogging\ off/g' | sed 's/\$IMJournalStateFile/\#\$IMJournalStateFile/g' > /etc/rsyslog.conf
-echo '' >> /etc/rsyslog.conf
+echo '*.* @@'$SYSLOG_REMOTE >> /etc/rsyslog.conf
 cat /etc/rsyslog.d/listen.conf | sed 's/\$SystemLogSocketName/\#\$SystemLogSocketName/g' > /etc/rsyslog.d/listen.conf
 rsyslogd
 echo -e ' [*] Starting crond...\n'
