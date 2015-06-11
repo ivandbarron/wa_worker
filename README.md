@@ -74,7 +74,7 @@ rabbitmq@1 service, the resource created looks like
 ```/services/rabbitmq@1 {"host":"172.16.200.201", "port":"8672"}```
 
 
-* Its critical that before start the discovery service, the shell command "$ hostname -i"
+* Its critical that before start the discovery service, the shell command ```$ hostname -i```
 return the correct ip address, maybe you will need edit your /etc/hosts file:
 ```
 File: /etc/hosts
@@ -112,6 +112,23 @@ We are ready for next step.
 
 
 ###2) Load wa_worker.
+
+
+UPDATE: before going further clone the project and edit the file start.sh and
+comment out every line inside, only leave untouched the lines:
+```
+echo -e ' [*] Loading requirements...\n';
+pip install -r $MOUNT_POINT/wa_worker/requirements.txt
+```
+
+and
+
+```
+while true; do
+    echo ' [*] running...';
+    sleep 10;
+done
+```
 
 
 Because coreos uses docker, take a look at the image base for this project in:
