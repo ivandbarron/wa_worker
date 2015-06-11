@@ -188,14 +188,14 @@ MOUNT_POINT               ::  where was mounted the github project inside docker
 ###3) Configure wa_worker
 
 
-Login into wa_worker instance for configuration (according with result from command "$ fleetctl list-units")
+Login into wa_worker instance for configuration (according with output from command ```$ fleetctl list-units```)
 ```
 $ docker exec -it wa_worker bash
 [root@8f35d4e0aeef /]#
 ```
 
 
-Next add your whatsapp credentials (get this using yowsup library):
+Next add your whatsapp credentials (you must use the yowsup library for registration: https://github.com/tgalal/yowsup/wiki/yowsup-cli-2.0#yowsup-cli-registration):
 ```
 [root@8f35d4e0aeef /]# python $MOUNT_POINT/wa_worker/wa_worker/message_receiver/keystore.py
 Usage:
