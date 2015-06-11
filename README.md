@@ -69,10 +69,13 @@ ExecStop=/usr/bin/etcdctl rm /services/rabbitmq@%i
 MachineOf=rabbitmq@%i.service
 ```
 
-For example, the resource created is /services/rabbitmq@1 {"host":"172.16.200.201", "port":"8672"}
-inside etcd's cluster service, its critical that the shell command "$ hostname -i"
-return the correct ip address, maybe you will need edit your /etc/hosts file (e.g.):
+This service will create a resouce into etcd's clusted service that "announce" our
+rabbitmq@1 service, the resource created looks like
+```/services/rabbitmq@1 {"host":"172.16.200.201", "port":"8672"}```
 
+
+* Its critical that before start the discovery service, the shell command "$ hostname -i"
+return the correct ip address, maybe you will need edit your /etc/hosts file:
 ```
 File: /etc/hosts
 172.16.200.202   coreos-node02.crediland.mx
@@ -152,6 +155,7 @@ wa_worker@1.service             8e179c12.../172.16.200.202      active  running
 
 
 Several environment vars are defined inside docker instance in ExecStart line:
+```
 SYSLOG_REMOTE             ::  because i don't want track were are located the instance, better specify where redirect syslog messages
 ETCD_ENDPOINT             ::  wa_worker need know where is their "local" etcd server for ask the location of rabbitmq@ service inside cluster
 ETCD_PORT                 ::  same but port number
@@ -160,7 +164,7 @@ MQ_SEND_MESSAGE_QUEUE     ::  what queue will be used for listen request for sen
 MQ_TASK_MANAGEMENT_QUEUE  ::  what queue will be used for scheduler service (wa_worker/scheduler will be removed to another github proyect)
 SECRET_KEY                ::  secret that will be used for encrypt/decrypt sensitive config information (whatsapp key/password configuration, email config for fail over, etc.)
 MOUNT_POINT               ::  where was mounted the github project inside docker instance? (check the flag -v /home/administrador/tmp/wa_worker:/mnt/wa_worker ... is in "/mnt", wa_worker need know that!)
-
+```
 
 
 
@@ -191,7 +195,7 @@ So you must add your whatsapp credentials, if SECRET_KEY environment var was def
 not need specify secret for encrypt this data.
 
 
-** You can add more credentials for use it in case of banned whatsapp account, so you ensure that
+* You can add more credentials for use it in case of banned whatsapp account, so you ensure that
 whatsapp message will always be delivered.
 
 
