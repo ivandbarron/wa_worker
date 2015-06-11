@@ -132,8 +132,8 @@ done
 
 
 Because coreos uses docker, take a look at the image base for this project in:
-https://registry.hub.docker.com/u/ivandavid77/centos7dockerfile/dockerfile/
-wa_worker service will load github project and mount it into instance created by docker:
+https://registry.hub.docker.com/u/ivandavid77/centos7dockerfile/dockerfile/,
+the wa_worker service will load github project and mount it into instance created by docker:
 ```
 File: wa_worker@.service
 [Unit]
