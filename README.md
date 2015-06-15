@@ -114,7 +114,7 @@ We are ready for next step.
 ###2) Load wa_worker.
 
 
-UPDATE: before going further clone the project and edit the file start.sh and
+UPDATE: before going further clone the project and edit the file ```start.sh``` and
 comment out every line inside, only leave untouched the lines:
 ```
 echo -e ' [*] Loading requirements...\n';
@@ -233,9 +233,17 @@ This email account will be used only in case of failure delivering whatsapp mess
 (because account banned or requested for new password by Whats App and no more whatsapp accounts configured)
 
 
+###4) Start the daemon
+
+Previously you had to comment lines in ```start.sh``` its time to uncomment the lines:
+```
+echo -e ' [*] Starting message receiver...\n';
+python $MOUNT_POINT/wa_worker/wa_worker/message_receiver/start.py &
+```
+You can start it manual or you can save your changes, commit your project and leave that every happens automatically every once start your wa_worker service
 
 
-###4) Send a message
+###5) Send a message
 
 
 You need a rabbitmq client that use the queue defined in MQ_SEND_MESSAGE_QUEUE environment var,
