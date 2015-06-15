@@ -69,8 +69,8 @@ ExecStop=/usr/bin/etcdctl rm /services/rabbitmq@%i
 MachineOf=rabbitmq@%i.service
 ```
 
-This service will create a resouce into etcd's clusted service that "announce" our
-rabbitmq@1 service, the resource created looks like
+This service will create a resouce into etcd that "announce" to cluster our
+rabbitmq@1 service, the resource will looks like
 ```/services/rabbitmq@1 {"host":"172.16.200.201", "port":"8672"}```
 
 
