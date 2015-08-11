@@ -3,7 +3,7 @@
 # Venta dia semana de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_semana \
+--name cierre_semana_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "10 21 * * 1-6" \
@@ -16,7 +16,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_semana_dom \
+--name cierre_semana_dom_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "10 19 * * 0" \
@@ -30,7 +30,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 # Venta dia calendario de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_calendario \
+--name cierre_calendario_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "11 21 * * 1-6" \
@@ -43,7 +43,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_calendario_dom \
+--name cierre_calendario_dom_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "11 19 * * 0" \

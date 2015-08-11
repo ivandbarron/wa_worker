@@ -3,7 +3,7 @@
 # Venta dia semana de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name venta_semana \
+--name venta_semana_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "5 12,16,19,21 * * 1-6" \
@@ -16,7 +16,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name venta_semana_dom \
+--name venta_semana_dom_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "5 12,16,19 * * 0" \
@@ -30,7 +30,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 # Venta dia calendario de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name venta_calendario \
+--name venta_calendario_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "6 12,16,19,21 * * 1-6" \
@@ -43,7 +43,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name venta_calendario_dom \
+--name venta_calendario_dom_pedro \
 --phones 5212281049275 \
 --mails pmarin@crediland.com.mx \
 --cron "6 12,16,19 * * 0" \
