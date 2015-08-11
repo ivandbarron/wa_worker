@@ -3,11 +3,11 @@
 # Venta dia semana de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_semana \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "10 21 * * 1-6" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--name venta_semana \
+--phones 5212281049275 \
+--mails pmarin@crediland.com.mx \
+--cron "5 12,16,19,21 * * 1-6" \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 364 DAY)" \
@@ -16,11 +16,11 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_semana_dom \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "10 19 * * 0" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--name venta_semana_dom \
+--phones 5212281049275 \
+--mails pmarin@crediland.com.mx \
+--cron "5 12,16,19 * * 0" \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 364 DAY)" \
@@ -30,11 +30,11 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 # Venta dia calendario de lunes a domingo
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_calendario \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "11 21 * * 1-6" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--name venta_calendario \
+--phones 5212281049275 \
+--mails pmarin@crediland.com.mx \
+--cron "6 12,16,19,21 * * 1-6" \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 1 YEAR)" \
@@ -43,11 +43,11 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
---name cierre_calendario_dom \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "11 19 * * 0" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--name venta_calendario_dom \
+--phones 5212281049275 \
+--mails pmarin@crediland.com.mx \
+--cron "6 12,16,19 * * 0" \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 1 YEAR)" \
