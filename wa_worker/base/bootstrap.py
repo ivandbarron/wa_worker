@@ -12,9 +12,10 @@ def get_mq_params(mq_name):
     etcd_port = int(os.getenv('ETCD_PORT', '4001'))
     instance = os.getenv('MQ_INSTANCE', '1')
     queue = os.getenv(mq_name, 'MESSAGE_QUEUE')
-    client = etcd.Client(host=etcd_endpoint, port=etcd_port)
-    service = json.loads(client.read('/services/rabbitmq@'+instance).value)
-    return service['host'], int(service['port']), queue
+    #client = etcd.Client(host=etcd_endpoint, port=etcd_port)
+    #service = json.loads(client.read('/services/rabbitmq@'+instance).value)
+    #return service['host'], int(service['port']), queue
+    return etcd_endpoint, 8672, queue
 
 
 def receive_from_queue(host, port, queue, callback):
