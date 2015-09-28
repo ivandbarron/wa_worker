@@ -1,6 +1,6 @@
-python-dateutil==2.2
+python-dateutil==2.4.2
 python-etcd==0.3.3
-yowsup2==2.2.79
+yowsup2==2.4.2
 simple-crypt==4.0.0
 pika==0.9.14
 python-crontab==1.9.3
