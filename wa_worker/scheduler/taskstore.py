@@ -165,7 +165,7 @@ def init_logger(log_name, debug=False):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
+    if len(sys.argv) in [1,5,6]:
         config_taskstore()
     else:
         args = get_args()
