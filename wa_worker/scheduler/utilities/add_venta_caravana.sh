@@ -10,8 +10,8 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
-    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 384 DAY)" \
-    "@LEYENDA=CONCAT('CARAVANA 2015 Del mismo dia en la semana ',WEEK(@FECHA_ACTUAL,6),' del anio')" \
+    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 385 DAY)" \
+    "@LEYENDA='CARAVANA VIERNES 2015 vs 2014'" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
 
@@ -25,7 +25,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
-    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 385 DAY)" \
-    "@LEYENDA='CARAVANA 2015 Del mismo dia del calendario'" \
+    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 384 DAY)" \
+    "@LEYENDA='CARAVANA 2/OCT/2015 vs 13/SEP/2014'" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
