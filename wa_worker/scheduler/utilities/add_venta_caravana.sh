@@ -11,7 +11,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 384 DAY)" \
-    "@LEYENDA=CONCAT('Del mismo dia en la semana ',WEEK(@FECHA_ACTUAL,6),' del anio')" \
+    "@LEYENDA=CONCAT('CARAVANA 2015 Del mismo dia en la semana ',WEEK(@FECHA_ACTUAL,6),' del anio')" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
 
@@ -26,6 +26,6 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 385 DAY)" \
-    "@LEYENDA='Del mismo dia del calendario'" \
+    "@LEYENDA='CARAVANA 2015 Del mismo dia del calendario'" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
