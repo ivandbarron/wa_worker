@@ -11,7 +11,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 385 DAY)" \
-    "@LEYENDA='CARAVANA SABADO 2014 vs 2015'" \
+    "@LEYENDA='CARAVANA DOMINGO 2014 vs 2015'" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
 # Venta dia calendario de lunes a domingo
@@ -24,7 +24,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
-    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 384 DAY)" \
-    "@LEYENDA='CARAVANA 14/SEP/2014 vs 3/OCT/2015'" \
+    "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 383 DAY)" \
+    "@LEYENDA='CARAVANA 16/SEP/2014 vs 4/OCT/2015'" \
     "#FILTROS=v.clave_muebleria = 'TC99'"
 
