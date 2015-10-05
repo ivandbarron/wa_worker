@@ -29,6 +29,7 @@ crond -p
 
 
 echo -e ' [*] Loading requirements...\n';
+yum install -y libjpeg-devel && yum clean all
 pip install -r $MOUNT_POINT/wa_worker/requirements.txt
 
 
