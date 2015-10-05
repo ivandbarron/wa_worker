@@ -30,6 +30,7 @@ crond -p
 
 echo -e ' [*] Loading requirements...\n';
 pip install -r $MOUNT_POINT/wa_worker/requirements.txt
+pip install pika
 
 
 echo -e ' [*] Starting message receiver...\n';
