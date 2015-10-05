@@ -1,7 +1,8 @@
 python-dateutil==2.4.2
 python-etcd==0.3.3
 yowsup2==2.4.2
-simple-crypt==4.0.0
+simple-crypt==4.1.7
 python-crontab==1.9.3
+pika 0.10.0
 --allow-external mysql-connector-python
 mysql-connector-python==2.0.3
