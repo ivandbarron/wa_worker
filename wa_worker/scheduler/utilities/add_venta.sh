@@ -4,8 +4,8 @@
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_semana \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "5 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
@@ -17,8 +17,8 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_semana_dom \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "5 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
@@ -31,8 +31,8 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "6 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
@@ -44,8 +44,8 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario_dom \
---phones 5212289790978 5212281404251 \
---mails hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "6 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta.sql \
 --params \
