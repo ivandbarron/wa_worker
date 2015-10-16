@@ -88,6 +88,10 @@ SELECT IF(@VARIACION_CANTIDAD > 0,'+','') INTO @SIGNO;
 SELECT ((SUM(IF(dia = @FECHA_ACTUAL,vta,0)) / SUM(IF(dia = @FECHA_ANTERIOR,vta,0))) - 1) * 100 INTO @VARIACION_PORCENTAJE
 FROM venta_hora;
 
+SELECT IF((SUM(IF(dia = @FECHA_ACTUAL  ,vta,0)) < 0) OR
+          (SUM(IF(dia = @FECHA_ANTERIOR,vta,0)) < 0), 'NO','SI') INTO @MOSTRAR_VARIACION_PORCENTAJE
+FROM venta_hora;
+
 SELECT
     CONCAT_WS(
         CHAR(10 USING utf8),
@@ -95,6 +99,8 @@ SELECT
         @LEYENDA,
         CONCAT('Venta ',YEAR(@FECHA_ANTERIOR),' $ ',FORMAT(SUM(IF(dia = @FECHA_ANTERIOR,vta,0)),2)),
         CONCAT('Venta ',YEAR(@FECHA_ACTUAL),' $ ',FORMAT(SUM(IF(dia = @FECHA_ACTUAL,vta,0)),2)),
-        CONCAT('Variacion  $ ',FORMAT(@VARIACION_CANTIDAD,2),' (',@SIGNO,FORMAT(@VARIACION_PORCENTAJE,2),') %')
+        CONCAT('Variacion  $ ',FORMAT(@VARIACION_CANTIDAD,2),
+            IF(@MOSTRAR_VARIACION_PORCENTAJE = 'SI',
+                CONCAT(' (',@SIGNO,FORMAT(@VARIACION_PORCENTAJE,2),') %'),''))
     ) AS mensaje
 FROM venta_hora;
