@@ -2,7 +2,13 @@ SELECT CURTIME() INTO @HORA_ACTUAL;
 
 DROP TEMPORARY TABLE IF EXISTS venta_hora;
 
-CREATE TEMPORARY TABLE IF NOT EXISTS venta_hora
+CREATE TEMPORARY TABLE IF NOT EXISTS venta_hora (
+  dia date default NULL,
+  hora int(2) default NULL,
+  ope bigint(21) NOT NULL default '0',
+  vta double(14,2) default NULL);
+
+INSERT INTO venta_hora
 SELECT
     v.fecha_venta AS dia,
     HOUR(v.hora) AS hora,
