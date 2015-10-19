@@ -8,6 +8,18 @@ CREATE TEMPORARY TABLE IF NOT EXISTS venta_hora (
   ope bigint(21) NOT NULL default '0',
   vta double(14,2) default NULL);
 
+INSERT INTO venta_hora SET
+dia = @FECHA_ACTUAL,
+hora = CURTIME(),
+ope = 0,
+vta = 0.0;
+
+INSERT INTO venta_hora SET
+dia = @FECHA_ANTERIOR,
+hora = CURTIME(),
+ope = 0,
+vta = 0.0;
+
 INSERT INTO venta_hora
 SELECT
     v.fecha_venta AS dia,
