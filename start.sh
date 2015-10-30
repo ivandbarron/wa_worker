@@ -44,6 +44,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/start.py &
 echo -e ' [*] Adding default task...\n'
 $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_venta.sh
 $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_cierre.sh
+$MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_flujo_efectivo.sh
 
 
 while true; do
