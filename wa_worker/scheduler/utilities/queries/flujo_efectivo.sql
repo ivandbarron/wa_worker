@@ -14,7 +14,6 @@ ABOP DOUBLE(12,2),
 ABOI DOUBLE(12,2),
 OTR DOUBLE(12,2));
 
-# Ingresos sobre ventas
 INSERT INTO tmp_ingresos_dia
 SELECT
 	IF(v.tipo_venta = '0E',v.valor_venta,0) AS CE,
@@ -34,7 +33,6 @@ FROM
 		c.folio_venta = v.folio_venta
 WHERE v.fecha_venta = @FECHA_ACTUAL;
 
-# Devoluciones sobre ventas
 INSERT INTO tmp_ingresos_dia
 SELECT
 	IF(v.tipo_venta = '0E',0-(b.devolucion_enganche+b.devolucion_resto_enganche+b.devolucion_capital+b.devolucion_intereses),0) AS CE,
@@ -56,7 +54,6 @@ WHERE
 	b.fecha = @FECHA_ACTUAL AND
 	b.causa <> 'A1';
 
-# Ingresos sobre abonos
 INSERT INTO tmp_ingresos_dia
 SELECT
 	0 AS CE,
@@ -101,14 +98,14 @@ FROM tmp_ingresos_dia;
 SELECT
 	CONCAT_WS(
 		CHAR(10 USING utf8),
-		@LEYENDA,		
+		@LEYENDA,
 		CONCAT('A las ',HOUR(@HORA_ACTUAL),' horas'),
 		CONCAT('Contado efectivo $ ',FORMAT(IFNULL(SUM(CE),0.0),2)),
 		CONCAT('Contado tarjeta $ ',FORMAT(IFNULL(SUM(CT),0.0),2)),
 		CONCAT('Contado resto $ ',FORMAT(IFNULL(SUM(CR),0.0),2)),
 		CONCAT('Enganches $ ',FORMAT(IFNULL(SUM(ENG),0.0),2)),
 		CONCAT('Cobros tienda $ ',FORMAT(IFNULL(SUM(ABOT),0.0),2)),
-		CONCAT('Cobros telefonica $ ',FORMAT(IFNULL(SUM(ABOG),0.0),2)),    
+		CONCAT('Cobros telefonica $ ',FORMAT(IFNULL(SUM(ABOG),0.0),2)),
 		CONCAT('Cobros presencial $ ',FORMAT(IFNULL(SUM(ABOM),0.0),2)),
 		CONCAT('Cobros Extra-Jud. $ ',FORMAT(IFNULL(SUM(ABOE),0.0),2)),
 		CONCAT('Cobros Pre-Jud. $ ',FORMAT(IFNULL(SUM(ABOP),0.0),2)),
@@ -117,4 +114,3 @@ SELECT
 		              '------------------------------------',
 		CONCAT('TOTAL:  $ ',FORMAT(IFNULL(SUM(CE+CT+CR+ENG+ABOT+ABOG+ABOM+ABOE+ABOP+ABOI+OTR),0.0),2)))
 FROM tmp_ingresos_dia;
-
