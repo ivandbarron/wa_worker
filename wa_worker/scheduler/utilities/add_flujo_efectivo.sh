@@ -4,8 +4,8 @@
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name flujo_efectivo \
---phones 5212281049275 \
---mails julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "15 10-21 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/flujo_efectivo.sql \
 --params \
@@ -15,8 +15,8 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name flujo_efectivo_dom \
---phones 5212281049275 \
---mails julio.tovar@crediland.com.mx \
+--phones 5212289790978 5212281404251 5212281049275 \
+--mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "15 11-19 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/flujo_efectivo.sql \
 --params \
