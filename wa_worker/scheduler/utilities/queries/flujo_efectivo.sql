@@ -80,22 +80,6 @@ WHERE
     v.clave_muebleria LIKE 'TC%';
 
 SELECT
-    @FECHA_ACTUAL AS fecha_actual,
-    IFNULL(SUM(CE),0.0) AS contado_efectivo,
-    IFNULL(SUM(CT),0.0) AS contado_tarjeta,
-    IFNULL(SUM(CR),0.0) AS contado_resto,
-    IFNULL(SUM(ENG),0.0) AS enganches,
-    IFNULL(SUM(ABOT),0.0) AS cobros_tienda,
-    IFNULL(SUM(ABOG),0.0) AS cobros_telefonica,
-    IFNULL(SUM(ABOM),0.0) AS cobros_presencial,
-    IFNULL(SUM(ABOE),0.0) AS cobros_extrajudicial,
-    IFNULL(SUM(ABOP),0.0) AS cobros_prejudicial,
-    IFNULL(SUM(ABOI),0.0) AS cobros_credinomina,
-    IFNULL(SUM(OTR),0.0) AS cobros_cartera_dictaminada,
-    IFNULL(SUM(CE+CT+CR+ENG+ABOT+ABOG+ABOM+ABOE+ABOP+ABOI+OTR),0.0) AS total
-FROM tmp_ingresos_dia;
-
-SELECT
     CONCAT_WS(
         CHAR(10 USING utf8),
         @LEYENDA,
