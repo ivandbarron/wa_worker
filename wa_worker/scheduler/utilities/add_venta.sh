@@ -7,7 +7,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --phones 5212289790978 5212281404251 5212281049275 \
 --mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "5 10-23 * * 1-6" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta2.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 364 DAY)" \
@@ -20,7 +20,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --phones 5212289790978 5212281404251 5212281049275 \
 --mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
 --cron "5 11-23 * * 0" \
---sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
+--sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/venta2.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
     "@FECHA_ANTERIOR=DATE_SUB(@FECHA_ACTUAL,INTERVAL 364 DAY)" \
