@@ -6,7 +6,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --name cierre_semana \
 --phones 5212289790978 5212281404251 5212281049275 \
 --mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "10 21 * * 1-6" \
+--cron "45 23 * * 1-6" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
@@ -19,7 +19,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --name cierre_semana_dom \
 --phones 5212289790978 5212281404251 5212281049275 \
 --mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "10 19 * * 0" \
+--cron "45 23 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/cierre.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
