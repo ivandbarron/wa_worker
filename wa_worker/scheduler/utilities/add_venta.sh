@@ -14,6 +14,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
     "@LEYENDA=CONCAT('Del mismo dia en la semana ',WEEK(@FECHA_ACTUAL,6),' del anio')" \
     "#FILTROS=v.clave_muebleria NOT LIKE 'TCI%' AND v.clave_muebleria NOT IN ('TC00','TC96','TC43','TC99')"
 
+
 python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_semana_dom \
@@ -28,7 +29,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
     "#FILTROS=v.clave_muebleria NOT LIKE 'TCI%' AND v.clave_muebleria NOT IN ('TC00','TC96','TC43','TC99')"
 
 # Venta dia calendario de lunes a domingo
-python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
+#python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario \
 --phones 5212289790978 5212281404251 5212281049275 \
@@ -41,7 +42,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
     "@LEYENDA='Del mismo dia del calendario'" \
     "#FILTROS=v.clave_muebleria NOT LIKE 'TCI%' AND v.clave_muebleria NOT IN ('TC00','TC96','TC43','TC99')"
 
-python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
+#python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --op add \
 --name venta_calendario_dom \
 --phones 5212289790978 5212281404251 5212281049275 \
