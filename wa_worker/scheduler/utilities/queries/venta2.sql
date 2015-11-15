@@ -128,6 +128,7 @@ SELECT
     CONCAT_WS(
         CHAR(10 USING utf8),
         @LEYENDA,
+        CONCAT('A las ',HOUR(@HORA_ACTUAL),' horas'),
         '',
         @RESUMEN_ANIO_ANTERIOR,
         @RESUMEN_ANIO_ACTUAL);
