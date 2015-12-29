@@ -17,7 +17,7 @@ python $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/task_manager.py \
 --name flujo_efectivo_dom \
 --phones 5212289790978 5212281404251 5212281049275 \
 --mails pmarin@crediland.com.mx hrodriguez@crediland.com.mx julio.tovar@crediland.com.mx \
---cron "15 11-19 * * 0" \
+--cron "15 11-21 * * 0" \
 --sql_file $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/queries/flujo_efectivo.sql \
 --params \
     "@FECHA_ACTUAL=CURDATE()" \
