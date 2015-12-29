@@ -31,6 +31,7 @@ crond -p
 echo -e ' [*] Loading requirements...\n';
 yum install -y libjpeg-devel && yum clean all
 pip install -r $MOUNT_POINT/wa_worker/requirements.txt
+pip install mysql-connector-python --allow-external mysql-connector-python
 
 
 echo -e ' [*] Starting message receiver...\n';
@@ -48,6 +49,6 @@ $MOUNT_POINT/wa_worker/wa_worker/scheduler/utilities/add_flujo_efectivo.sh
 
 
 while true; do
-    echo ' [*] running...';
+    echo '.';
     sleep 10;
 done
