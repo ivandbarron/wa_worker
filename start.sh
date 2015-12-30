@@ -32,7 +32,8 @@ echo -e ' [*] Loading requirements...\n';
 pip install --upgrade pip
 yum install -y libjpeg-devel && yum clean all
 pip install -r $MOUNT_POINT/wa_worker/requirements.txt
-pip install mysql-connector-python --allow-unverified --allow-external mysql-connector-python
+#pip install mysql-connector-python --allow-unverified --allow-external mysql-connector-python
+pip install mysql-connector-repackaged
 
 
 echo -e ' [*] Starting message receiver...\n';
